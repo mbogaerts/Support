@@ -39,9 +39,6 @@
                     Xpand\Xpand.ExpressApp.Modules\Dashboard\Xpand.ExpressApp.Dashboard.csproj;
                     Xpand\Xpand.ExpressApp.Modules\EmailTemplateEngine\Xpand.EmailTemplateEngine.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Email\Xpand.ExpressApp.Email.csproj;
-                    Xpand\Xpand.ExpressApp.Modules\ExceptionHandling\Xpand.ExpressApp.ExceptionHandling.csproj;
-                    Xpand\Xpand.ExpressApp.Modules\ExceptionHandling.Web\Xpand.ExpressApp.ExceptionHandling.Web.csproj;
-                    Xpand\Xpand.ExpressApp.Modules\ExceptionHandling.Win\Xpand.ExpressApp.ExceptionHandling.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment\Xpand.ExpressApp.FileAttachment.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment.Web\Xpand.ExpressApp.FileAttachment.Web.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FilterDataStore\Xpand.ExpressApp.FilterDataStore.csproj;
@@ -115,8 +112,6 @@
                    Demos\Modules\Dashboard\DashboardTester.Web\DashboardTester.Web.csproj;
                    Demos\Modules\Email\EmailTester.Win\EmailTester.Win.csproj;
                    Demos\Modules\Email\EmailTester.Web\EmailTester.Web.csproj;
-                   Demos\Modules\ExceptionHanding\ExceptionHandingTester.Win\ExceptionHandingTester.Win.csproj;
-                   Demos\Modules\ExceptionHanding\ExceptionHandingTester.Web\ExceptionHandingTester.Web.csproj;
                    Demos\Modules\FileAttachment\FileAttachmentTester.Win\FileAttachmentTester.Win.csproj;
                    Demos\Modules\FileAttachment\FileAttachmentTester.Web\FileAttachmentTester.Web.csproj;
                    Demos\Modules\FilterDataStore\FilterDataStoreTester.Win\FilterDataStoreTester.Win.csproj;
