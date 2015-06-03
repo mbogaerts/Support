@@ -12,7 +12,7 @@ namespace GacInstaller {
         static void Main(string[] args){
             Trace.AutoFlush = true;
             Trace.Listeners.Add(new TextWriterTraceListener("GacInstaller.log") { TraceOutputOptions = TraceOptions.DateTime });
-            Trace.Listeners.Add(new ConsoleTraceListener{Name = "Console"});
+            Trace.Listeners.Add(new ConsoleTraceListener{Name = "Console",TraceOutputOptions = TraceOptions.None});
             var options = new Options();
             bool arguments = Parser.Default.ParseArguments(args, options);
             if (!arguments){
@@ -27,11 +27,19 @@ namespace GacInstaller {
                     if (options.Regex==null||Regex.IsMatch(Path.GetFileNameWithoutExtension(file) + "", options.Regex)) {
                         var fileName =options.Mode==Mode.Install? Path.GetFileName(file):Path.GetFileNameWithoutExtension(file);
                         string arg=options.Mode==Mode.Install?"ir":"ur";
+                        
                         var processStartInfo = new ProcessStartInfo(Path.Combine(gacUtilPath, ""), "/"+arg + " " + fileName + @" UNINSTALL_KEY eXpandFramework ""eXpandFramework""") { WorkingDirectory = AppDomain.CurrentDomain.SetupInformation.ApplicationBase, UseShellExecute = false, RedirectStandardOutput = true };
                         var process = Process.Start(processStartInfo);
                         Debug.Assert(process != null, "process != null");
                         var readToEnd = process.StandardOutput.ReadToEnd();
-                        Trace.TraceInformation(readToEnd);
+                        if (!readToEnd.Contains("successfully")){
+                            Trace.TraceInformation(fileName);
+                            Trace.TraceInformation(readToEnd);
+                        }
+                        else{
+                            string action=options.Mode==Mode.Install?" installed":" uninstalled";
+                            Trace.TraceInformation(fileName + action + " succefully");
+                        }
                         process.WaitForExit();
                     }
                 }
