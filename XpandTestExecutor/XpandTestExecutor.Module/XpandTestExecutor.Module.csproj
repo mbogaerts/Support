@@ -147,6 +147,9 @@
     <Compile Include="Controllers\BrowseEasyTestFolderController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\WindowsUserController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\EasyTestDashBoardController.cs">
       <SubType>Component</SubType>
     </Compile>
