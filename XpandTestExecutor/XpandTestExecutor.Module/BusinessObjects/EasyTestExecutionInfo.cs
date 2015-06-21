@@ -140,16 +140,11 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         public void CreateApplications(string directory) {
-            using (
-                var optionsStream = new FileStream(Path.Combine(directory, "config.xml"), FileMode.Open, FileAccess.Read,
-                    FileShare.Read)) {
-                Options options = Options.LoadOptions(optionsStream, null, null, directory);
-                foreach (TestApplication application in options.Applications.Cast<TestApplication>()) {
-                    EasyTestApplications.Add(
-                        new XPQuery<EasyTestApplication>(Session,true).FirstOrDefault(
-                            testApplication => testApplication.Name == application.Name) ??
-                        new EasyTestApplication(Session) { Name = application.Name });
-                }
+            foreach (TestApplication application in EasyTest.Options.Applications.Cast<TestApplication>()) {
+                EasyTestApplications.Add(
+                    new XPQuery<EasyTestApplication>(Session, true).FirstOrDefault(
+                        testApplication => testApplication.Name == application.Name) ??
+                    new EasyTestApplication(Session) { Name = application.Name });
             }
         }
 
@@ -171,7 +166,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
 
             var path = Path.GetDirectoryName(EasyTest.FileName) + "";
             if (State == EasyTestState.Failed) {
-                var logTests = EasyTest.GetFailedLogTests();
+                var logTests = EasyTest.GetLogTests().Where(test => test.Result!="Passed").ToArray();
                 if (logTests.All(test => test.ApplicationName==null))
                     TestsLog = File.ReadAllText(Path.Combine(path, "TestsLog.xml"));
                 else {

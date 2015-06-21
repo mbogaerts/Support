@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 using DevExpress.EasyTest.Framework;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
@@ -23,20 +24,16 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
 
-        public LogTest[] GetFailedLogTests() {
+
+        public LogTest[] GetLogTests() {
             var directoryName = Path.GetDirectoryName(FileName) + "";
             var fileName = Path.Combine(directoryName, "testslog.xml");
             if (File.Exists(fileName)) {
                 using (var optionsStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)) {
-                    return LoadTestsResults(optionsStream);
+                    return LogTests.LoadTestsResults(optionsStream).Tests.Where(test => test != null&&test.Result!="Ignored").ToArray();
                 }
             }
             return new LogTest[0];
-        }
-
-        private LogTest[] LoadTestsResults(FileStream optionsStream) {
-            return LogTests.LoadTestsResults(optionsStream).Tests.Where(test
-                => test != null).Where(test => test.Result != "Passed").ToArray();
         }
 
         public override string ToString() {
@@ -111,7 +108,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
                 WebPort = 4030,
                 WindowsUser = windowsUser,
             };
-            _lastEasyTestExecutionInfo.CreateApplications(Path.GetDirectoryName(FileName));
+            _lastEasyTestExecutionInfo.CreateApplications(FileName);
             if (useCustomPort) {
                 IQueryable<EasyTestExecutionInfo> executionInfos =
                     new XPQuery<EasyTestExecutionInfo>(Session, true).Where(
@@ -162,5 +159,12 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             return new XPQuery<ExecutionInfo>(Session).FirstOrDefault(info => info.EasyTestExecutionInfos.Any(executionInfo => executionInfo.EasyTest.Oid == Oid && executionInfo.State == EasyTestState.Passed));
         }
 
+        public void SerializeOptions() {
+            string configPath = Path.GetDirectoryName(FileName) + "";
+            string fileName = Path.Combine(configPath, "config.xml");
+            using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite)) {
+                new XmlSerializer(typeof(Options)).Serialize(fileStream, Options);
+            }
+        }
     }
 }

@@ -114,7 +114,8 @@ namespace XpandTestExecutor.Module {
                     var easyTest = unitOfWork.GetObjectByKey<EasyTest>(easyTestKey, true);
                     var directoryName = Path.GetDirectoryName(easyTest.FileName) + "";
                     CopyXafLogs(directoryName);
-                    var logTests = easyTest.GetFailedLogTests();
+                    var logTests = easyTest.GetLogTests();
+                    easyTest.IgnoreApplications(logTests);
                     var state = EasyTestState.Passed;
                     if (logTests.All(test => test.Result == "Passed")) {
                         Tracing.Tracer.LogText(easyTest.FileName + " passed");
@@ -124,6 +125,9 @@ namespace XpandTestExecutor.Module {
                             logTests.SelectMany(test => test.Errors.Select(error => error.Message.Text))));
                         state = EasyTestState.Failed;
                     }
+
+                    
+
                     easyTest.LastEasyTestExecutionInfo.Update(state);
                     easyTest.Session.ValidateAndCommitChanges();
                     if (easyTest.LastEasyTestExecutionInfo.ExecutedFromSystem()) {
@@ -170,6 +174,7 @@ namespace XpandTestExecutor.Module {
                 TestEnviroment.Setup(easyTests);
                 var tokenSource = new CancellationTokenSource();
                 Task.Factory.StartNew(() => ExecuteCore(easyTests, isSystem,  tokenSource.Token,debugMode),tokenSource.Token).ContinueWith(task =>{
+                    TestEnviroment.Cleanup(easyTests);
                     Trace.TraceInformation("Main thread finished");
                     continueWith(task);
                 }, tokenSource.Token);

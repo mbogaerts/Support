@@ -12,6 +12,7 @@ using XpandTestExecutor.Module.BusinessObjects;
 namespace XpandTestExecutor.Module {
 
     public static class Extensions {
+
         public static void ValidateAndCommitChanges(this Session session) {
             var unitOfWork = ((UnitOfWork)session);
             var objectSpace = new XPObjectSpace(XafTypesInfo.Instance, XpoTypesInfoHelper.GetXpoTypeInfoSource(), () => unitOfWork);
@@ -48,7 +49,7 @@ namespace XpandTestExecutor.Module {
             return alias.Name.ToLowerInvariant().StartsWith("win");
         }
 
-        public static string UpdateAppPath(this TestAlias alias, string userName,bool unlink) {
+        public static string UpdateAppPath(this TestAlias alias, string userName,bool unlink=false) {
             if (unlink)
                 userName = null;
             string containerDir = unlink? null : TestRunner.EasyTestUsersDir + @"\";

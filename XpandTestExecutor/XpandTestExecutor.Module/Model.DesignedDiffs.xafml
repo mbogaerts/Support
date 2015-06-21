@@ -2,11 +2,11 @@
 <Application Title="XpandTestExecutor" Logo="ExpressAppLogo">
   <ActionDesign>
     <Actions>
-      <Action Id="SelectionMode" QuickAccess="True" ImageName="Action_Grant_Set" >
-        <DefaultValue DefaultIndex="1" Synchronize="True" />
-      </Action>
-      <Action Id="ExecutionMode" QuickAccess="True" ImageName="Action_Debug_Start" >
+      <Action Id="ExecutionMode" QuickAccess="True" ImageName="Action_Debug_Start">
         <DefaultValue DefaultIndex="0" Synchronize="True" />
+      </Action>
+      <Action Id="SelectionMode" QuickAccess="True" ImageName="Action_Grant_Set">
+        <DefaultValue DefaultIndex="1" Synchronize="True" />
       </Action>
       <Action Id="UserMode" QuickAccess="True" ImageName="BO_User">
         <DefaultValue DefaultIndex="0" Synchronize="True" />
@@ -40,6 +40,7 @@
       </Item>
     </Items>
   </NavigationItems>
+  <Options HideNavigationOnStartup="True" />
   <SchemaModules>
     <SchemaModule Name="CloneObjectModule" Version="14.2.3.0" IsNewNode="True" />
     <SchemaModule Name="DashboardModule" Version="14.2.2.2" IsNewNode="True" />
@@ -82,7 +83,7 @@
       <Columns>
         <ColumnInfo Id="Duration" Index="-1" />
         <ColumnInfo Id="ExecutionInfo" Index="-1" />
-        <ColumnInfo Id="Start" SortIndex="0" SortOrder="Ascending" />
+        <ColumnInfo Id="Start" SortIndex="0" SortOrder="Descending" />
         <ColumnInfo Id="WebPort" Index="-1" />
         <ColumnInfo Id="WebView" Index="-1" />
         <ColumnInfo Id="WinPort" Index="-1" />

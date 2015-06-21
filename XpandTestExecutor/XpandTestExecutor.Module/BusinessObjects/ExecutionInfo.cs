@@ -40,6 +40,12 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             }
         }
 
+        public XPCollection<EasyTestExecutionInfo> FailedInfos {
+            get {
+                return new XPCollection<EasyTestExecutionInfo>(Session, EasyTestExecutionInfos.Except(EasyTestRunningInfos.Concat(PassedEasyTestExecutionInfos)));
+            }
+        }
+
         [VisibleInListView(false)]
         public DateTime CreationDate {
             get { return _creationDate; }

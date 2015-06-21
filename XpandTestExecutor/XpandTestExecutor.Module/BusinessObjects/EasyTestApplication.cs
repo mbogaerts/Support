@@ -12,6 +12,7 @@ namespace XpandTestExecutor.Module.BusinessObjects{
         [RuleUniqueValue]
         [RuleRequiredField]
         public string Name { get; set; }
+
         [Association("EasyTestExecutionInfo-EasyTestApplications")]
         public XPCollection<EasyTestExecutionInfo> EasyTestExecutionInfos {
             get {

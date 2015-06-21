@@ -10,7 +10,10 @@ namespace XpandTestExecutor.Module.Controllers {
 
     public class BrowseEasyTestFolderController : ObjectViewController<ListView, EasyTest> {
         public BrowseEasyTestFolderController() {
-            var simpleAction = new SimpleAction(this, "BrowseEasyTestFolder", PredefinedCategory.View) { Caption = "Browse", SelectionDependencyType = SelectionDependencyType.RequireSingleObject };
+            var simpleAction = new SimpleAction(this, "BrowseEasyTestFolder", PredefinedCategory.View) {
+                Caption = "Browse",
+                SelectionDependencyType = SelectionDependencyType.RequireSingleObject
+            };
             simpleAction.Execute += SimpleActionOnExecute;
         }
 

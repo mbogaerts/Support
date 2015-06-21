@@ -12,7 +12,10 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         public Options this[string fileName] {
-            get { return _options[fileName.ToLower()]; }
+            get {
+
+                return _options[fileName.ToLower()];
+            }
         }
 
         public static void Init(string[] easyTestFileNames) {
@@ -20,9 +23,13 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             foreach (var path in easyTestFileNames) {
                 var directoryName = Path.GetDirectoryName(path) + "";
                 string fileName = Path.Combine(directoryName, "config.xml");
-                var optionsStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                var options = Options.LoadOptions(optionsStream, null, null, directoryName);
-                optionsStream.Close();
+                var destFileName = Path.Combine(Path.GetDirectoryName(fileName)+"","_"+Path.GetFileName(fileName));
+                if (!File.Exists(destFileName))
+                    File.Copy(fileName, destFileName,true);
+                Options options;
+                using (var fileStream = new FileStream(destFileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite)) {
+                    options = Options.LoadOptions(fileStream, null, null, directoryName);
+                }
                 Instance._options.Add(path.ToLower(), options);
             }
         }

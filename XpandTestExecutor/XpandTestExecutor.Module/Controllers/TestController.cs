@@ -28,10 +28,16 @@ namespace XpandTestExecutor.Module.Controllers {
         private bool _isDebug;
 
         public TestController() {
-            _runTestAction = new SimpleAction(this, "RunTest", PredefinedCategory.View) { Caption = Run };
+            _runTestAction = new SimpleAction(this, "RunTest", PredefinedCategory.View) {
+                Caption = Run,
+                SelectionDependencyType = SelectionDependencyType.RequireMultipleObjects
+            };
             _runTestAction.Execute += RunTestActionOnExecute;
 
-            _unlinkTestAction = new SimpleAction(this, "UnlinkTest", PredefinedCategory.View) {Caption = "Unlink"};
+            _unlinkTestAction = new SimpleAction(this, "UnlinkTest", PredefinedCategory.View) {
+                Caption = "Unlink",
+                SelectionDependencyType = SelectionDependencyType.RequireMultipleObjects
+            };
             _unlinkTestAction.Execute+=UnlinkTestActionOnExecute;   
         }
 
@@ -45,6 +51,7 @@ namespace XpandTestExecutor.Module.Controllers {
 
         private void UnlinkTestActionOnExecute(object sender, SimpleActionExecuteEventArgs e) {
             var easyTests = e.SelectedObjects.Cast<EasyTest>().ToArray();
+            OptionsProvider.Init(easyTests.Select(test => test.FileName).ToArray());
             if (ReferenceEquals(_selectionModeAction.SelectedItem.Data, TestControllerHelper.FromFile)) {
                 var fileNames = File.ReadAllLines("easytests.txt").Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 easyTests = EasyTest.GetTests(ObjectSpace, fileNames);

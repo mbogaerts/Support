@@ -197,12 +197,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XpandTestExecutor.Module\XpandTestExecutor.Module.csproj">
-      <Project>{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}</Project>
-      <Name>XpandTestExecutor.Module</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Controllers\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +222,12 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XpandTestExecutor.Module\XpandTestExecutor.Module.csproj">
+      <Project>{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}</Project>
+      <Name>XpandTestExecutor.Module</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
