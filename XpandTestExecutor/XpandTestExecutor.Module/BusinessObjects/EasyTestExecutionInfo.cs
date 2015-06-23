@@ -96,13 +96,15 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         public int Duration {
             get { return (int)End.Subtract(Start).TotalMinutes; }
         }
-        [InvisibleInAllViews]
+
+        [DisplayFormat("{0:HH:mm}")]
         public DateTime End {
             get { return _end; }
             set { SetPropertyValue("End", ref _end, value); }
         }
 
         [InvisibleInAllViews]
+        [DisplayFormat("{0:HH:mm}")]
         public DateTime Start {
             get { return _start; }
             set { SetPropertyValue("Start", ref _start, value); }

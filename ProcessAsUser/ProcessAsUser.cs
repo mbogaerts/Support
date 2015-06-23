@@ -192,13 +192,13 @@ namespace ProcessAsUser {
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool GetExitCodeProcess(IntPtr hProcess, out uint exitCode);
 
-        private static void CreateProcess(string childProcName, IntPtr logonUserToken, string arguments) {
+        private void CreateProcess(string childProcName, IntPtr logonUserToken, string arguments) {
             string fileName = Path.Combine(Path.GetDirectoryName(childProcName) + "", "ProcessAsUserWrapper.exe");
             string args = Path.GetFileName(childProcName) + " " + arguments;
             var userSpecificProcess = new UserSpecificProcess {
                 StartInfo = new ProcessStartInfo(fileName, args) { UseShellExecute = false }
             };
-            userSpecificProcess.StartAsUser(logonUserToken);
+            userSpecificProcess.StartAsUser(logonUserToken,_options.Timeout);
         }
 
         public bool SessionExists() {

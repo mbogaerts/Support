@@ -18,6 +18,9 @@ namespace XpandTestExecutor.Module {
         }
 
         public static void Cleanup(EasyTest[] easyTests) {
+            foreach (var easyTest in easyTests) {
+                easyTest.LastEasyTestExecutionInfo.Setup(true);
+            }
         }
 
         public static void Setup(this EasyTestExecutionInfo info,bool unlink) {
