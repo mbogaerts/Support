@@ -115,7 +115,6 @@ namespace XpandTestExecutor.Module {
                     var directoryName = Path.GetDirectoryName(easyTest.FileName) + "";
                     CopyXafLogs(directoryName);
                     var logTests = easyTest.GetLogTests();
-                    easyTest.IgnoreApplications(logTests);
                     var state = EasyTestState.Passed;
                     if (logTests.All(test => test.Result == "Passed")) {
                         Tracing.Tracer.LogText(easyTest.FileName + " passed");
@@ -133,6 +132,7 @@ namespace XpandTestExecutor.Module {
                     if (easyTest.LastEasyTestExecutionInfo.ExecutedFromSystem()) {
                         EnviromentEx.LogOffUser(easyTest.LastEasyTestExecutionInfo.WindowsUser.Name);
                         easyTest.LastEasyTestExecutionInfo.Setup(true);
+                        easyTest.IgnoreApplications(logTests);
                     }
                 }
             }
@@ -282,6 +282,7 @@ namespace XpandTestExecutor.Module {
         }
 
         private static void KillTimeoutProccesses(ExecutionInfo executionInfo) {
+            return;
             var timeOutInfos = executionInfo.EasyTestExecutionInfos.Where(IsTimeOut);
             foreach (var timeOutInfo in timeOutInfos) {
                 LogErrors(timeOutInfo.EasyTest, new TimeoutException(timeOutInfo.EasyTest + " has timeout " + timeOutInfo.EasyTest.Options.DefaultTimeout + " and runs already  for " + DateTime.Now.Subtract(timeOutInfo.Start).TotalMinutes));

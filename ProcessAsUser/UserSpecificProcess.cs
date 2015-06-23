@@ -44,7 +44,7 @@ namespace ProcessAsUser{
         public static extern bool DuplicateTokenEx(HandleRef hToken, int access, SecurityAttributes tokenAttributes,
             int impersonationLevel, int tokenType, ref IntPtr hNewToken);
 
-        public void StartAsUser(IntPtr userToken) {
+        public void StartAsUser(IntPtr userToken, int timeout) {
             if (StartInfo.UseShellExecute){
                 throw new InvalidOperationException("can't call this with shell execute");
             }
@@ -80,7 +80,7 @@ namespace ProcessAsUser{
                 Program.Logger.Info("cmd=" + commandLine);
                 Program.Logger.Info("hprocess=" + processInformation.hProcess);
                 var processById = GetProcessById(processInformation.dwProcessId);
-                processById.WaitForExit();
+                processById.WaitForExit(timeout);
                 Program.Logger.Info("Process finished");
             }
             catch (Exception e){

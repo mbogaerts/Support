@@ -14,7 +14,7 @@
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com/#AVC</projectUrl>
     <dependencies>
-      <dependency id="eXpandNHibernateCore" version="15.1.3.1" />
+      <dependency id="eXpandNHibernateCore" version="15.1.4.1" />
     </dependencies>
   </metadata>
   <files>
