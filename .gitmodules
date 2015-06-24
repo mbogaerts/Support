@@ -6,6 +6,6 @@
 	path = Nuspec/DX-Nuspec
 	url = https://github.com/derjabkin/DX-Nuspec.git
 	branch = master
-[submodule "Report designer script editor"]
+[submodule "KrzysztofKielce"]
 	path = Report designer script editor
 	url = https://github.com/KrzysztofKielce/xaf-report-designer-script-editor
