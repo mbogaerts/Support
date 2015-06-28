@@ -14,7 +14,7 @@ using XpandTestExecutor.Module.BusinessObjects;
 
 namespace XpandTestExecutor.Module.Controllers {
     public interface IModelOptionsTestExecutor {
-        [DefaultValue(5)]
+        [DefaultValue(2)]
         int ExecutionRetries { get; set; }
     }
     public class TestController : ObjectViewController<ListView, EasyTest>,IModelExtender {
