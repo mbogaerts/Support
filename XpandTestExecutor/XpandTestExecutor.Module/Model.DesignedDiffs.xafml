@@ -122,31 +122,35 @@
             <LayoutGroup Id="TestsLog" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="0" RelativeSize="100" Caption="TestsLog" IsNewNode="True">
               <LayoutItem Id="TestsLog" ShowCaption="False" ViewItem="TestsLog" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
             </LayoutGroup>
-            <LayoutGroup Id="WinView" ShowCaption="True" CaptionLocation="Left" Direction="Vertical" Index="1" RelativeSize="100" Caption="WinView" IsNewNode="True">
+            <LayoutGroup Id="WinView" ShowCaption="True" CaptionLocation="Left" Direction="Vertical" Index="1" RelativeSize="100" Caption="Views" IsNewNode="True">
               <LayoutGroup Id="Auto930fb6c8-046d-4a1a-9591-448974400956" ShowCaption="False" Caption="Auto930fb6c8-046d-4a1a-9591-448974400956(5)" Direction="Vertical" Index="0" RelativeSize="100" IsNewNode="True">
-                <LayoutItem Id="WinView" ViewItem="WinView" CaptionLocation="Top" SizeConstraintsType="Default" Index="0" RelativeSize="100" ShowCaption="False" IsNewNode="True" />
+                <TabbedGroup Id="Item4" CaptionLocation="Top" Index="0" RelativeSize="100" IsNewNode="True">
+                  <LayoutGroup Id="Item3" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="100" Caption="Win" IsNewNode="True">
+                    <LayoutItem Id="WinView" ShowCaption="False" ViewItem="WinView" CaptionLocation="Top" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
+                  </LayoutGroup>
+                  <LayoutGroup Id="Item5" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="1" RelativeSize="100" Caption="Web" IsNewNode="True">
+                    <LayoutItem Id="WebView" ShowCaption="False" ViewItem="WebView" CaptionLocation="Top" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
+                  </LayoutGroup>
+                </TabbedGroup>
               </LayoutGroup>
             </LayoutGroup>
-            <LayoutGroup Id="WinXAFLog" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="2" RelativeSize="100" Caption="WinXAFLog" IsNewNode="True">
-              <LayoutItem Id="WinLog" ViewItem="WinLog" SizeConstraintsType="Default" Index="0" RelativeSize="100" CaptionLocation="Top" ShowCaption="False" IsNewNode="True" />
+            <LayoutGroup Id="WinXAFLog" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="2" RelativeSize="100" Caption="Logs" IsNewNode="True">
+              <TabbedGroup Id="Item7" CaptionLocation="Top" Index="0" RelativeSize="100" IsNewNode="True">
+                <LayoutGroup Id="Item6" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="100" Caption="Win" IsNewNode="True">
+                  <LayoutItem Id="WinLog" ShowCaption="False" ViewItem="WinLog" CaptionLocation="Top" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="Item8" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="1" RelativeSize="100" Caption="Web" IsNewNode="True">
+                  <LayoutItem Id="WebLog" ShowCaption="False" ViewItem="WebLog" CaptionLocation="Top" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
+                </LayoutGroup>
+              </TabbedGroup>
             </LayoutGroup>
-            <LayoutGroup Id="WinOther" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="3" RelativeSize="100" Caption="WinOther" IsNewNode="True">
-              <LayoutItem Id="WinPort" ViewItem="WinPort" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
-            </LayoutGroup>
-            <LayoutGroup Id="WebView" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="4" RelativeSize="100" Caption="WebView" IsNewNode="True">
-              <LayoutItem Id="WebView" ViewItem="WebView" CaptionLocation="Top" SizeConstraintsType="Default" Index="0" RelativeSize="100" ShowCaption="False" IsNewNode="True" />
-            </LayoutGroup>
-            <LayoutGroup Id="WebXAFLog" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="5" RelativeSize="100" Caption="WebXAFLog" IsNewNode="True">
-              <LayoutItem Id="WebLog" ViewItem="WebLog" CaptionLocation="Top" SizeConstraintsType="Default" Index="0" RelativeSize="100" ShowCaption="False" IsNewNode="True" />
-            </LayoutGroup>
-            <LayoutGroup Id="WebOther" ShowCaption="True" CaptionLocation="Bottom" Direction="Vertical" Index="6" RelativeSize="100" Caption="Other" IsNewNode="True">
-              <LayoutItem Id="WebPort" ViewItem="WebPort" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
-            </LayoutGroup>
-            <LayoutGroup Id="EasyTestApplications_Group" ShowCaption="True" Caption="Easy Test Applications" Index="7" RelativeSize="100" IsNewNode="True">
-              <LayoutItem Id="EasyTestApplications" ViewItem="EasyTestApplications" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
-            </LayoutGroup>
-            <LayoutGroup Id="Item2" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="8" RelativeSize="100" Caption="Concurrent" IsNewNode="True">
-              <LayoutItem Id="ConcurrentInfos" ShowCaption="False" ViewItem="ConcurrentInfos" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
+            <LayoutGroup Id="WinOther" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="3" RelativeSize="100" Caption="Other" IsNewNode="True">
+              <LayoutGroup Id="Auto4e0f28bb-c982-46ae-b721-5b6314c9b7f4" ShowCaption="False" Caption="" Direction="Horizontal" Index="0" RelativeSize="4.50070323488045" IsNewNode="True">
+                <LayoutItem Id="WinPort" ViewItem="WinPort" SizeConstraintsType="Default" Index="0" RelativeSize="49.944994499449948" IsNewNode="True" />
+                <LayoutItem Id="WebPort" ViewItem="WebPort" SizeConstraintsType="Default" Index="1" RelativeSize="50.055005500550052" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutItem Id="EasyTestApplications" ViewItem="EasyTestApplications" SizeConstraintsType="Custom" Index="1" RelativeSize="17.721518987341771" CaptionLocation="Top" MinSize="909, 126" MaxSize="909, 126" IsNewNode="True" />
+              <LayoutItem Id="ConcurrentInfos" ShowCaption="True" ViewItem="ConcurrentInfos" SizeConstraintsType="Default" Index="2" RelativeSize="77.777777777777771" CaptionLocation="Top" IsNewNode="True" />
             </LayoutGroup>
           </TabbedGroup>
           <LayoutGroup Id="SimpleEditors" RelativeSize="86.58536585365853" Direction="Horizontal" Removed="True">
