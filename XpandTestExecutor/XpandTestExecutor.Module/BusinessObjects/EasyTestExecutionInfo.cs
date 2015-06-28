@@ -35,6 +35,12 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         [Size(SizeAttribute.Unlimited), Delayed]
+        public string ExecutorLog {
+            get { return GetDelayedPropertyValue<string>("ExecutorLog"); }
+            set { SetDelayedPropertyValue("ExecutorLog", value); }
+        }
+
+        [Size(SizeAttribute.Unlimited), Delayed]
         public string WinLog {
             get { return GetDelayedPropertyValue<string>("WinLog"); }
             set { SetDelayedPropertyValue("WinLog", value); }
@@ -181,9 +187,10 @@ namespace XpandTestExecutor.Module.BusinessObjects {
                             fileName = Directory.GetFiles(path, "eXpressAppFramework_" + platform + ".log").FirstOrDefault();
                             if (fileName != null)
                                 SetLog(platform == "Win", File.ReadAllText(fileName));
-                            TestsLog = File.ReadAllText(Path.Combine(path, "TestsLog.xml"));
                         }
-                    }                    
+                    }
+                    TestsLog = File.ReadAllText(Path.Combine(path, "TestsLog.xml"));
+                    ExecutorLog = File.ReadAllText(Path.Combine(path, "TestExecutor.log"));
                 }
             }
 
