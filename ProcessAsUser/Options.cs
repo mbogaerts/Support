@@ -21,6 +21,9 @@ namespace ProcessAsUser {
         [Option('t', "timeout", Required = true, HelpText = "timeout in millisec")]
         public int Timeout { get; set; }
 
+        [Option('s', "shell",  HelpText = "Display command prompt")]
+        public bool Shell { get; set; }
+
         [HelpOption]
         public string GetUsage() {
             return HelpText.AutoBuild(this,current => HelpText.DefaultParsingErrorsHandler(this, current));

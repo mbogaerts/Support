@@ -24,6 +24,8 @@ namespace XpandTestExecutor.Module {
         }
 
         public static void Setup(this EasyTestExecutionInfo info,bool unlink) {
+            if (!unlink)
+                info.Setup(true);
             TestUpdater.UpdateTestConfig(info, unlink);
             AppConfigUpdater.Update(info,unlink);
             TestUpdater.UpdateTestFile(info,unlink);

@@ -23,9 +23,7 @@ namespace XpandTestExecutor.Module.Controllers {
         private readonly SimpleAction _runTestAction;
         private CancellationTokenSource _cancellationTokenSource;
         private readonly SimpleAction _unlinkTestAction;
-        private SingleChoiceAction _selectionModeAction;
-        private SingleChoiceAction _userModeAction;
-        private bool _isDebug;
+        private TestControllerHelper _testControllerHelper;
 
         public TestController() {
             _runTestAction = new SimpleAction(this, "RunTest", PredefinedCategory.View) {
@@ -43,16 +41,25 @@ namespace XpandTestExecutor.Module.Controllers {
 
         protected override void OnActivated() {
             base.OnActivated();
-            var testControllerHelper = Application.MainWindow.GetController<TestControllerHelper>();
-            _selectionModeAction = testControllerHelper.SelectionModeAction;
-            _userModeAction = testControllerHelper.UserModeAction;
-            _isDebug = testControllerHelper.ExecutionModeAction.SelectedItem.Caption == "Debug";
+            _testControllerHelper = Application.MainWindow.GetController<TestControllerHelper>();
+        }
+
+        public SingleChoiceAction SelectionModeAction {
+            get { return _testControllerHelper.SelectionModeAction; }
+        }
+
+        public SingleChoiceAction UserModeAction {
+            get { return _testControllerHelper.UserModeAction; }
+        }
+
+        public bool IsDebug {
+            get { return _testControllerHelper.ExecutionModeAction.SelectedItem.Caption == "Debug"; }
         }
 
         private void UnlinkTestActionOnExecute(object sender, SimpleActionExecuteEventArgs e) {
             var easyTests = e.SelectedObjects.Cast<EasyTest>().ToArray();
             OptionsProvider.Init(easyTests.Select(test => test.FileName).ToArray());
-            if (ReferenceEquals(_selectionModeAction.SelectedItem.Data, TestControllerHelper.FromFile)) {
+            if (ReferenceEquals(SelectionModeAction.SelectedItem.Data, TestControllerHelper.FromFile)) {
                 var fileNames = File.ReadAllLines("easytests.txt").Where(s => !string.IsNullOrEmpty(s)).ToArray();
                 easyTests = EasyTest.GetTests(ObjectSpace, fileNames);
             }
@@ -70,17 +77,17 @@ namespace XpandTestExecutor.Module.Controllers {
                 if (_cancellationTokenSource != null) {
                     _cancellationTokenSource.Cancel();
                     var executionInfo = ObjectSpace.FindObject<ExecutionInfo>(info=>info.Sequence==CurrentSequenceOperator.CurrentSequence);
-                    var users = executionInfo.EasyTestRunningInfos.Select(info => info.WindowsUser.Name).ToArray();
+                    var users = executionInfo.EasyTestRunningInfos.Select(info => info.WindowsUser.Name).Where(s => s!=null).ToArray();
                     EnviromentEx.LogOffAllUsers(users);
                 }
                 _runTestAction.Caption = Run;
             }
-            else if (ReferenceEquals(_selectionModeAction.SelectedItem.Data, TestControllerHelper.Selected)) {
+            else if (ReferenceEquals(SelectionModeAction.SelectedItem.Data, TestControllerHelper.Selected)) {
                 _runTestAction.Caption = CancelRun;
                 if (!isSystemMode) {
                     _unlinkTestAction.DoExecute();
                 }
-                _cancellationTokenSource = TestRunner.Execute(e.SelectedObjects.Cast<EasyTest>().ToArray(), isSystemMode,_isDebug,
+                _cancellationTokenSource = TestRunner.Execute(e.SelectedObjects.Cast<EasyTest>().ToArray(), isSystemMode,IsDebug,
                     task => _runTestAction.Caption = Run);}
             else {
                 var fileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "EasyTests.txt");
@@ -89,7 +96,7 @@ namespace XpandTestExecutor.Module.Controllers {
         }
 
         private bool IsSystemMode() {
-            return _selectionModeAction.Active && ReferenceEquals(_userModeAction.SelectedItem.Data, TestControllerHelper.System);
+            return SelectionModeAction.Active && ReferenceEquals(UserModeAction.SelectedItem.Data, TestControllerHelper.System);
         }
 
         public void ExtendModelInterfaces(ModelInterfaceExtenders extenders) {

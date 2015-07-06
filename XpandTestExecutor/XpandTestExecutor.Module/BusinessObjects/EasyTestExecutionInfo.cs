@@ -83,7 +83,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
 
         public XPCollection<EasyTestExecutionInfo> ConcurrentInfos {
             get {
-                var easyTestExecutionInfos = ExecutionInfo.EasyTestExecutionInfos.Where(info => !ReferenceEquals(info.EasyTest, EasyTest));
+                var easyTestExecutionInfos = ExecutionInfo.EasyTestExecutionInfos.Where(info => info.EasyTest.Oid!=EasyTest.Oid&&info.Start!=DateTime.MinValue&&Start!=DateTime.MinValue);
                 var timeRange = new DateTimeRange(Start,End);
                 var testExecutionInfos = easyTestExecutionInfos.Where(info => timeRange.Intersects(new DateTimeRange(info.Start, info.End)));
                 return new XPCollection<EasyTestExecutionInfo>(Session, testExecutionInfos);

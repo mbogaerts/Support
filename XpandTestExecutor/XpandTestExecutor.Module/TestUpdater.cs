@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml;
 using System.Xml.Serialization;
 using DevExpress.EasyTest.Framework;
 using XpandTestExecutor.Module.BusinessObjects;
@@ -19,18 +20,18 @@ namespace XpandTestExecutor.Module {
         }
 
         public static void UpdateTestConfig(EasyTestExecutionInfo easyTestExecutionInfo, bool unlink) {
-            if (unlink) {
-                string fileName = Path.Combine(Path.GetDirectoryName(easyTestExecutionInfo.EasyTest.FileName)+"", "_config.xml");
-                File.Copy(fileName, Path.Combine(Path.GetDirectoryName(easyTestExecutionInfo.EasyTest.FileName) + "", "config.xml"),true);
-            }
-            else {
+
+            if (!unlink) {
                 UpdatePort(easyTestExecutionInfo);
                 UpdateApplications(easyTestExecutionInfo);
                 UpdateAppBinAlias(easyTestExecutionInfo);
                 UpdateDataBases(easyTestExecutionInfo);
                 easyTestExecutionInfo.EasyTest.SerializeOptions();
             }
-
+            else {
+                string fileName = Path.Combine(Path.GetDirectoryName(easyTestExecutionInfo.EasyTest.FileName) + "","_config.xml");
+                File.Copy(fileName, Path.Combine(Path.GetDirectoryName(easyTestExecutionInfo.EasyTest.FileName) + "", "config.xml"), true);
+            }
         }
 
         private static void UpdateApplications(EasyTestExecutionInfo easyTestExecutionInfo) {
@@ -38,19 +39,35 @@ namespace XpandTestExecutor.Module {
             foreach (var testApplication in testApplications) {
                 var xmlAttribute = testApplication.AdditionalAttributes.FirstOrDefault(attribute => attribute.Name=="FileName");                
                 if (xmlAttribute != null) {
-                    var currentPath = xmlAttribute.Value;
-                    if (!currentPath.Contains(TestRunner.EasyTestUsersDir)){
-                        var newPath = Path.Combine(Path.GetDirectoryName(currentPath) + @"\",
-                            TestRunner.EasyTestUsersDir + @"\" + easyTestExecutionInfo.WindowsUser.Name);
-                        xmlAttribute.Value = Path.Combine(newPath, Path.GetFileName(currentPath) + "");
+                    if (CanModifyFileName(xmlAttribute,easyTestExecutionInfo.WindowsUser.Name)) {
+                        var newPath =!xmlAttribute.Value.Contains(TestRunner.EasyTestUsersDir)? Path.Combine(Path.GetDirectoryName(xmlAttribute.Value) + @"\",
+                            TestRunner.EasyTestUsersDir + @"\" + easyTestExecutionInfo.WindowsUser.Name) : Path.GetDirectoryName(xmlAttribute.Value)+"";
+                        ModifyFileName(xmlAttribute, Path.Combine(newPath,Path.GetFileName(xmlAttribute.Value)), easyTestExecutionInfo.WindowsUser.Name);
                     }
                 }
                 else {
-                    xmlAttribute = testApplication.AdditionalAttributes.First(attribute => attribute.Name == "PhysicalPath");                
-                    if (!xmlAttribute.Value.Contains(TestRunner.EasyTestUsersDir))
-                        xmlAttribute.Value=Path.Combine(xmlAttribute.Value,TestRunner.EasyTestUsersDir+@"\"+easyTestExecutionInfo.WindowsUser.Name);
+                    xmlAttribute = testApplication.AdditionalAttributes.First(attribute => attribute.Name == "PhysicalPath");
+                    if (CanModifyFileName(xmlAttribute, easyTestExecutionInfo.WindowsUser.Name)) {
+                        if (!xmlAttribute.Value.Contains(TestRunner.EasyTestUsersDir))
+                            xmlAttribute.Value = Path.Combine(xmlAttribute.Value,
+                                TestRunner.EasyTestUsersDir + @"\" + easyTestExecutionInfo.WindowsUser.Name);
+                        ModifyFileName(xmlAttribute, xmlAttribute.Value, easyTestExecutionInfo.WindowsUser.Name);
+                    }
                 }
             }
+        }
+
+        private static void ModifyFileName(XmlAttribute xmlAttribute, string path, string userName) {
+            xmlAttribute.Value = Regex.Replace(path, @"(.*" +TestRunner.EasyTestUsersDir+ @"\\)([\w]*)(.*)", "$1" +userName+ "$3",
+                RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        }
+
+        private static bool CanModifyFileName(XmlAttribute xmlAttribute,string userName) {
+            if (xmlAttribute.Value.Contains(TestRunner.EasyTestUsersDir)) {
+                var directoryName = Path.GetDirectoryName(Path.GetFullPath(xmlAttribute.Value)) + "";
+                return new DirectoryInfo(directoryName).Name != userName;
+            }
+            return true;
         }
 
         private static void UpdateDataBases(EasyTestExecutionInfo easyTestExecutionInfo,bool unlink=false) {
@@ -76,12 +93,17 @@ namespace XpandTestExecutor.Module {
         }
 
         private static void UpdateTestFileCore(string fileName, WindowsUser windowsUser, Options options,bool unlink) {
-            var allText = File.ReadAllText(fileName);
+            string allText;
+            using (var streamReader = new StreamReader(fileName)) {
+                allText = streamReader.ReadToEnd();
+            }
             foreach (var testDatabase in options.TestDatabases.Cast<TestDatabase>()) {
                 var suffix = !unlink ? "_" + windowsUser.Name : null;
                 allText = Regex.Replace(allText, @"(" + testDatabase.DefaultDBName() + @")(_[^\s]*)?", "$1" + suffix, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Multiline);
             }
-            File.WriteAllText(fileName, allText);
+            using (var streamWriter = new StreamWriter(fileName)) {
+                streamWriter.Write(allText);
+            }
         }
 
         public static void UpdateTestFile(EasyTestExecutionInfo easyTestExecutionInfo,bool unlink) {

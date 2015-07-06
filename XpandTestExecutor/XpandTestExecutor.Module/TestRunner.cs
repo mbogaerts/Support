@@ -81,37 +81,44 @@ namespace XpandTestExecutor.Module {
                     logTests.Tests.Add(logTest);
                 }
                 logTests.Save(Path.Combine(directoryName, "TestsLog.xml"));
+                EnviromentEx.LogOffUser(easyTest.LastEasyTestExecutionInfo.WindowsUser.Name);
+                
                 easyTest.LastEasyTestExecutionInfo.Update(EasyTestState.Failed);
+                easyTest.LastEasyTestExecutionInfo.Setup(true);
                 easyTest.Session.ValidateAndCommitChanges();
             }
             Tracing.Tracer.LogError(e);
         }
         private static ProcessStartInfo GetProcessStartInfo(EasyTest easyTest, WindowsUser user, bool isSystem, bool debugMode) {
             string testExecutor = string.Format("TestExecutor.v{0}.exe", AssemblyInfo.VersionShort);
-            string arguments = isSystem
-                ? string.Format("-e " + testExecutor + " -u {0} -p {1} -a {2} -t {3}", user.Name, user.Password,
-                    GetArguments(easyTest, debugMode), easyTest.Options.DefaultTimeout*60*1000)
-                : Path.GetFileName(easyTest.FileName);
+            var args = GetArguments(easyTest, debugMode);
+            string shell=debugMode?"-s":null;
+            string arguments = isSystem ? string.Format("-e " + testExecutor + " -u {0} -p {1} -a {2} -t {3} "+shell, user.Name, user.Password,
+                    args, easyTest.Options.DefaultTimeout*60*1000): args;
             string directoryName = Path.GetDirectoryName(easyTest.FileName) + "";
             var exe = isSystem ? "ProcessAsUser.exe" : testExecutor;
             var processStartInfo = new ProcessStartInfo(Path.Combine(directoryName, exe), arguments) {
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
+                UseShellExecute = debugMode,
                 WorkingDirectory = directoryName
             };
+            if (!debugMode) {
+                processStartInfo.RedirectStandardOutput = true;
+                processStartInfo.RedirectStandardError = true;
+            }
             return processStartInfo;
         }
 
         private static string GetArguments(EasyTest easyTest, bool debugMode) {
             var fileName = Path.GetFileName(easyTest.FileName);
-            return debugMode ? fileName + " -d:" : fileName;
+            return debugMode ? @""""+ fileName + @" -d:""" : fileName;
         }
 
         private static void AfterProcessExecute(IDataLayer dataLayer, Guid easyTestKey) {
             lock (_locker) {
+                Tracing.Tracer.LogSeparator("In AfterProcessExecute");
                 using (var unitOfWork = new UnitOfWork(dataLayer)) {
                     var easyTest = unitOfWork.GetObjectByKey<EasyTest>(easyTestKey, true);
+                    Tracing.Tracer.LogValue("easytest",easyTest.Name);
                     var directoryName = Path.GetDirectoryName(easyTest.FileName) + "";
                     CopyXafLogs(directoryName);
                     var logTests = easyTest.GetLogTests();
@@ -124,17 +131,18 @@ namespace XpandTestExecutor.Module {
                             logTests.SelectMany(test => test.Errors.Select(error => error.Message.Text))));
                         state = EasyTestState.Failed;
                     }
-
-                    
-
+                    Tracing.Tracer.LogValue("State",state.ToString());
                     easyTest.LastEasyTestExecutionInfo.Update(state);
-                    easyTest.Session.ValidateAndCommitChanges();
                     if (easyTest.LastEasyTestExecutionInfo.ExecutedFromSystem()) {
                         EnviromentEx.LogOffUser(easyTest.LastEasyTestExecutionInfo.WindowsUser.Name);
+                        Tracing.Tracer.LogValue("LogOffUser", easyTest.LastEasyTestExecutionInfo.WindowsUser.Name);
                         easyTest.LastEasyTestExecutionInfo.Setup(true);
                         easyTest.IgnoreApplications(logTests);
+                        Tracing.Tracer.LogValue("Execution","Reset");
                     }
+                    easyTest.Session.ValidateAndCommitChanges();
                 }
+                Tracing.Tracer.LogSeparator("Out AfterProcessExecute");
             }
         }
 

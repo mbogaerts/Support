@@ -16,15 +16,16 @@ namespace XpandTestExecutor.Module {
 
         private static void UpdateAppConfigFiles(EasyTestExecutionInfo easyTestExecutionInfo, bool unlink) {
             var user = easyTestExecutionInfo.WindowsUser;
-            if (!unlink) {
-                var options = easyTestExecutionInfo.EasyTest.Options;
-                foreach (var alias in options.Aliases.Cast<TestAlias>().Where(@alias => alias.ContainsAppPath())) {
-                    var sourcePath = Path.GetFullPath(alias.UpdateAppPath(null,true));
-                    if (Directory.Exists(sourcePath)) {
-                        var destPath = Path.GetFullPath(alias.UpdateAppPath(user.Name));
-                        DirectoryCopy(sourcePath, destPath, true, sourcePath + @"\" + TestRunner.EasyTestUsersDir);
-                        UpdateAppConfig(easyTestExecutionInfo,  alias,  false);
-                    }
+            
+            var options = easyTestExecutionInfo.EasyTest.Options;
+            foreach (var alias in options.Aliases.Cast<TestAlias>().Where(@alias => alias.ContainsAppPath())) {
+                var sourcePath = Path.GetFullPath(alias.UpdateAppPath(null,true));
+                var destPath = Path.GetFullPath(alias.UpdateAppPath(user.Name));
+                if (!unlink&&Directory.Exists(sourcePath)) {
+                    if (Directory.Exists(destPath))
+                        Directory.Delete(destPath, true);
+                    DirectoryCopy(sourcePath, destPath, true, sourcePath + @"\" + TestRunner.EasyTestUsersDir);
+                    UpdateAppConfig(easyTestExecutionInfo,  alias,  false);
                 }
             }
             UpdateAdditionalApps(easyTestExecutionInfo, user,unlink);

@@ -103,16 +103,15 @@
         <Filter Id="Failed" Criteria="[Failed] = True" IsNewNode="True" />
       </Filters>
     </ListView>
-    <ListView Id="EasyTestExecutionInfo_ConcurrentInfos_ListView">
+    <ListView Id="EasyTestExecutionInfo_ConcurrentInfos_ListView" HideToolBar="True">
       <Columns>
         <ColumnInfo Id="Duration" Index="-1" />
+        <ColumnInfo Id="EasyTest" Index="-1" />
         <ColumnInfo Id="ExecutionInfo" Index="-1" />
-        <ColumnInfo Id="EasyTest.Application" PropertyName="EasyTest.Application" Index="0" IsNewNode="True" />
-        <ColumnInfo Id="EasyTest" Index="1" />
         <ColumnInfo Id="WinPort" Index="2" />
         <ColumnInfo Id="WebPort" Index="3" />
-        <ColumnInfo Id="State" Index="4" />
-        <ColumnInfo Id="WindowsUser" Index="5" />
+        <ColumnInfo Id="State" Index="4" Width="56" />
+        <ColumnInfo Id="WindowsUser" Index="5" Width="81" />
       </Columns>
     </ListView>
     <DetailView Id="EasyTestExecutionInfo_DetailView">
@@ -145,12 +144,12 @@
               </TabbedGroup>
             </LayoutGroup>
             <LayoutGroup Id="WinOther" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="3" RelativeSize="100" Caption="Other" IsNewNode="True">
-              <LayoutGroup Id="Auto4e0f28bb-c982-46ae-b721-5b6314c9b7f4" ShowCaption="False" Caption="" Direction="Horizontal" Index="0" RelativeSize="4.50070323488045" IsNewNode="True">
-                <LayoutItem Id="WinPort" ViewItem="WinPort" SizeConstraintsType="Default" Index="0" RelativeSize="49.944994499449948" IsNewNode="True" />
-                <LayoutItem Id="WebPort" ViewItem="WebPort" SizeConstraintsType="Default" Index="1" RelativeSize="50.055005500550052" IsNewNode="True" />
+              <LayoutGroup Id="Auto4e0f28bb-c982-46ae-b721-5b6314c9b7f4" ShowCaption="False" Caption="Auto4e0f28bb-c982-46ae-b721-5b6314c9b7f4(19)" Direction="Horizontal" Index="0" RelativeSize="5.3370786516853936" IsNewNode="True">
+                <LayoutItem Id="WinPort" ViewItem="WinPort" SizeConstraintsType="Default" Index="0" RelativeSize="49.901768172888019" IsNewNode="True" />
+                <LayoutItem Id="WebPort" ViewItem="WebPort" SizeConstraintsType="Default" Index="1" RelativeSize="50.098231827111981" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutItem Id="EasyTestApplications" ViewItem="EasyTestApplications" SizeConstraintsType="Custom" Index="1" RelativeSize="17.721518987341771" CaptionLocation="Top" MinSize="909, 126" MaxSize="909, 126" IsNewNode="True" />
-              <LayoutItem Id="ConcurrentInfos" ShowCaption="True" ViewItem="ConcurrentInfos" SizeConstraintsType="Default" Index="2" RelativeSize="77.777777777777771" CaptionLocation="Top" IsNewNode="True" />
+              <LayoutItem Id="EasyTestApplications" ViewItem="EasyTestApplications" SizeConstraintsType="Custom" Index="1" RelativeSize="11.797752808988765" CaptionLocation="Top" MinSize="20, 84" MaxSize="0, 84" IsNewNode="True" />
+              <LayoutItem Id="ConcurrentInfos" ViewItem="ConcurrentInfos" CaptionLocation="Top" SizeConstraintsType="Default" Index="2" RelativeSize="82.865168539325836" IsNewNode="True" />
             </LayoutGroup>
           </TabbedGroup>
           <LayoutGroup Id="SimpleEditors" RelativeSize="86.58536585365853" Direction="Horizontal" Removed="True">
@@ -171,9 +170,10 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <ListView Id="EasyTestExecutionInfo_EasyTestApplications_ListView" HideToolBar="True" />
     <ListView Id="ExecutionInfo_ListView">
       <Columns>
-        <ColumnInfo Id="Sequence" SortOrder="Descending" />
+        <ColumnInfo Id="Sequence" SortOrder="Descending" Width="60" />
       </Columns>
     </ListView>
   </Views>
