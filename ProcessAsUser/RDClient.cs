@@ -1,6 +1,8 @@
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -69,6 +71,13 @@ namespace ProcessAsUser {
         public void Connect(string userName, string password) {
             rdp.DesktopWidth = 1440;
             rdp.DesktopHeight = 900;
+            
+            Width = rdp.DesktopWidth;
+            Height = rdp.DesktopHeight;
+            StartPosition=FormStartPosition.Manual;
+            Location=new Point(1,0);
+            rdp.Dock=DockStyle.Fill;
+            rdp.BringToFront();
             rdp.Server = Environment.MachineName;
             rdp.UserName = userName;
             var secured = (IMsTscNonScriptable)rdp.GetOcx();
