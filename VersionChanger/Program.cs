@@ -25,13 +25,13 @@ namespace VersionChanger {
                         File.WriteAllText(assemblyInfo, allText);
                         var vsTemplates = Path.GetFullPath(options.VSTemplates + @"\vs_templates");
                         UnZip(vsTemplates, currentVersion);
-                        var buildBatch = Path.GetFullPath(options.BuildBatch);
-                        var processStartInfo = new ProcessStartInfo(buildBatch){
-                            WorkingDirectory = Path.GetDirectoryName(buildBatch)+""
-                        };
-                        var process = new Process{ StartInfo = processStartInfo };
-                        process.Start();
-                        process.WaitForExit();
+//                        var buildBatch = Path.GetFullPath(options.BuildBatch);
+//                        var processStartInfo = new ProcessStartInfo(buildBatch){
+//                            WorkingDirectory = Path.GetDirectoryName(buildBatch)+""
+//                        };
+//                        var process = new Process{ StartInfo = processStartInfo };
+//                        process.Start();
+//                        process.WaitForExit();
                         Zip(vsTemplates, currentVersion);
                     }
 
