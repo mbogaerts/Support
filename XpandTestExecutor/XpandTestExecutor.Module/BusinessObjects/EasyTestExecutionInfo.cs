@@ -190,7 +190,9 @@ namespace XpandTestExecutor.Module.BusinessObjects {
                         }
                     }
                     TestsLog = File.ReadAllText(Path.Combine(path, "TestsLog.xml"));
-                    ExecutorLog = File.ReadAllText(Path.Combine(path, "TestExecutor.log"));
+                    var testExecutorLog = Path.Combine(path, "TestExecutor.log");
+                    if (File.Exists(testExecutorLog))
+                        ExecutorLog = File.ReadAllText(testExecutorLog);
                 }
             }
 

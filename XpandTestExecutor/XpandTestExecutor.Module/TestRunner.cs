@@ -38,6 +38,7 @@ namespace XpandTestExecutor.Module {
             lock (_locker) {
                 using (var unitOfWork = new UnitOfWork(dataLayer)) {
                     var easyTest = unitOfWork.GetObjectByKey<EasyTest>(easyTestKey, true);
+                    Tracing.Tracer.LogValue("RunTest",easyTest.Name+"/"+easyTest.Application);
                     timeout = easyTest.Options.DefaultTimeout*60*1000;
                     try {
                         var lastEasyTestExecutionInfo = easyTest.LastEasyTestExecutionInfo;
@@ -66,12 +67,21 @@ namespace XpandTestExecutor.Module {
             
             var task = Task.Factory.StartNew(() => process.WaitForExit(timeout)).TimeoutAfter(timeout);
             Task.WaitAll(task);
-            AfterProcessExecute(dataLayer, easyTestKey);
+            try {
+                AfterProcessExecute(dataLayer, easyTestKey);
+            }
+            catch (Exception e) {
+                using (var unitOfWork = new UnitOfWork(dataLayer)) {
+                    var easyTest = unitOfWork.GetObjectByKey<EasyTest>(easyTestKey, true);
+                    LogErrors(easyTest, e);
+                }
+            }
             
         }
 
         private static void LogErrors(EasyTest easyTest, Exception e) {
             lock (_locker) {
+                Tracing.Tracer.LogSeparator("LogErrors");
                 var directoryName = Path.GetDirectoryName(easyTest.FileName) + "";
                 var logTests = new LogTests();
                 foreach (var application in easyTest.Options.Applications.Cast<TestApplication>()) {
@@ -86,8 +96,9 @@ namespace XpandTestExecutor.Module {
                 easyTest.LastEasyTestExecutionInfo.Update(EasyTestState.Failed);
                 easyTest.LastEasyTestExecutionInfo.Setup(true);
                 easyTest.Session.ValidateAndCommitChanges();
+                Tracing.Tracer.LogError(e);
             }
-            Tracing.Tracer.LogError(e);
+            
         }
         private static ProcessStartInfo GetProcessStartInfo(EasyTest easyTest, WindowsUser user, bool isSystem, bool debugMode) {
             string testExecutor = string.Format("TestExecutor.v{0}.exe", AssemblyInfo.VersionShort);
@@ -115,34 +126,28 @@ namespace XpandTestExecutor.Module {
 
         private static void AfterProcessExecute(IDataLayer dataLayer, Guid easyTestKey) {
             lock (_locker) {
-                Tracing.Tracer.LogSeparator("In AfterProcessExecute");
                 using (var unitOfWork = new UnitOfWork(dataLayer)) {
                     var easyTest = unitOfWork.GetObjectByKey<EasyTest>(easyTestKey, true);
-                    Tracing.Tracer.LogValue("easytest",easyTest.Name);
+                    Tracing.Tracer.LogValue("In AfterProcessExecute", easyTest.Name + "/" + easyTest.Application);
                     var directoryName = Path.GetDirectoryName(easyTest.FileName) + "";
                     CopyXafLogs(directoryName);
                     var logTests = easyTest.GetLogTests();
                     var state = EasyTestState.Passed;
-                    if (logTests.All(test => test.Result == "Passed")) {
-                        Tracing.Tracer.LogText(easyTest.FileName + " passed");
-                    }
-                    else {
-                        Tracing.Tracer.LogText(easyTest.FileName + " not passed=" + string.Join(Environment.NewLine,
-                            logTests.SelectMany(test => test.Errors.Select(error => error.Message.Text))));
+                    if (logTests.Any(test => test.Result != "Passed")) {
                         state = EasyTestState.Failed;
                     }
-                    Tracing.Tracer.LogValue("State",state.ToString());
+                    Tracing.Tracer.LogValue("State", state.ToString());
                     easyTest.LastEasyTestExecutionInfo.Update(state);
                     if (easyTest.LastEasyTestExecutionInfo.ExecutedFromSystem()) {
                         EnviromentEx.LogOffUser(easyTest.LastEasyTestExecutionInfo.WindowsUser.Name);
                         Tracing.Tracer.LogValue("LogOffUser", easyTest.LastEasyTestExecutionInfo.WindowsUser.Name);
                         easyTest.LastEasyTestExecutionInfo.Setup(true);
                         easyTest.IgnoreApplications(logTests);
-                        Tracing.Tracer.LogValue("Execution","Reset");
+                        Tracing.Tracer.LogValue("Execution", "Reset");
                     }
                     easyTest.Session.ValidateAndCommitChanges();
+                    Tracing.Tracer.LogValue("Out AfterProcessExecute", easyTest.Name+"/"+easyTest.Application);
                 }
-                Tracing.Tracer.LogSeparator("Out AfterProcessExecute");
             }
         }
 
@@ -183,7 +188,7 @@ namespace XpandTestExecutor.Module {
                 var tokenSource = new CancellationTokenSource();
                 Task.Factory.StartNew(() => ExecuteCore(easyTests, isSystem,  tokenSource.Token,debugMode),tokenSource.Token).ContinueWith(task =>{
                     TestEnviroment.Cleanup(easyTests);
-                    Trace.TraceInformation("Main thread finished");
+                    Tracing.Tracer.LogText("Main thread finished");
                     continueWith(task);
                 }, tokenSource.Token);
                 Thread.Sleep(100);
