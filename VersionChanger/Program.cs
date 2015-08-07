@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using CommandLine;
 
@@ -12,7 +13,7 @@ namespace VersionChanger {
             bool arguments = Parser.Default.ParseArguments(args, options);
             if (arguments){
                 try{
-                    var newVersion = new Version(options.Version);
+                    
                     var fullPath = Path.GetFullPath(options.AssemblyInfoPath);
                     var assemblyInfo = Path.Combine(fullPath,"assemblyinfo.cs");
                     if (!File.Exists(assemblyInfo))
@@ -20,18 +21,19 @@ namespace VersionChanger {
                     var regexObj = new Regex("public const string Version = \"([^\"]*)");
                     var allText = File.ReadAllText(assemblyInfo);
                     var currentVersion = new Version(regexObj.Match(allText).Groups[1].Value);
+                    var newVersion = GetNewVersion(options,currentVersion);
                     if (currentVersion != newVersion){
                         allText = Regex.Replace(allText, "(?<start>.*public const string Version = \")[^\"]*(?<end>.*)", "${start}" +newVersion+ "${end}", RegexOptions.Multiline);
                         File.WriteAllText(assemblyInfo, allText);
                         var vsTemplates = Path.GetFullPath(options.VSTemplates + @"\vs_templates");
                         UnZip(vsTemplates, currentVersion);
-//                        var buildBatch = Path.GetFullPath(options.BuildBatch);
-//                        var processStartInfo = new ProcessStartInfo(buildBatch){
-//                            WorkingDirectory = Path.GetDirectoryName(buildBatch)+""
-//                        };
-//                        var process = new Process{ StartInfo = processStartInfo };
-//                        process.Start();
-//                        process.WaitForExit();
+                        var buildBatch = Path.GetFullPath(options.BuildBatch);
+                        var processStartInfo = new ProcessStartInfo(buildBatch){
+                            WorkingDirectory = Path.GetDirectoryName(buildBatch)+""
+                        };
+                        var process = new Process{ StartInfo = processStartInfo };
+                        process.Start();
+                        process.WaitForExit();
                         Zip(vsTemplates, currentVersion);
                     }
 
@@ -46,6 +48,10 @@ namespace VersionChanger {
             if (Debugger.IsAttached){
                 Console.ReadLine();
             }
+        }
+
+        private static Version GetNewVersion(Options options, Version currentVersion){
+            return options.Version == "++" ? new Version(currentVersion.Major, currentVersion.Minor, currentVersion.Build, currentVersion.Revision + 1) : new Version(options.Version);
         }
 
         private static void Zip(string vsTemplates, Version currentVersion){
