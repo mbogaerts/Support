@@ -58,10 +58,9 @@ namespace FixReferences {
             if (isLibSpec){
                 projects = projects.Where(s => !s.Contains("BaseImpl")).ToArray();
             }
-            var allReferences = GetReferences(projects).ToArray();
-            var dependencies = GetDependencies(allReferences,isLibSpec).ToArray();
-            UpdateDependencies(document,dependencies);
-            UpdateFiles(document, allReferences,dependencies.Select(pair => pair.Key));
+            
+            UpdateDependencies(document,projects, isLibSpec);
+            UpdateFiles(document, projects, isLibSpec);
             if (isLibSpec){
                 var filesElement = document.Descendants(XNamespace + "files").First();
                 filesElement.Add(NewFileElement("Xpand.Persistent.BaseImpl"));
@@ -70,7 +69,9 @@ namespace FixReferences {
             DocumentHelper.Save(document, file);
         }
 
-        private void UpdateFiles(XDocument document, KeyValuePair<string, IEnumerable<XElement>>[] allReferences, IEnumerable<XElement> dependencies){
+        private void UpdateFiles(XDocument document, IEnumerable<string> projects, bool isLibSpec){
+            var allReferences = GetReferences(projects, "System").ToArray();
+            var dependencies = GetDependencies(allReferences, isLibSpec).Select(pair => pair.Key).ToArray();
             var filesElement = document.Descendants(XNamespace + "files").First();
             var descendantNodes = filesElement.DescendantNodes().ToArray();
             for (int index = descendantNodes.ToArray().Length - 1; index >= 0; index--) {
@@ -108,11 +109,15 @@ namespace FixReferences {
             return content;
         }
 
-        private void UpdateDependencies(XDocument document, IEnumerable<KeyValuePair<XElement, string>> elements){
+        private void UpdateDependencies(XDocument document, IEnumerable<string> projects, bool isLibSpec){
+            var allReferences = GetReferences(projects).ToArray();
+            var dependencies = GetDependencies(allReferences, isLibSpec).ToArray();
             var metadataElement = document.Descendants(XNamespace+"metadata").First();
             metadataElement.Descendants(XNamespace+"dependencies").Remove();
             var dependenciesElement = new XElement(XNamespace + "dependencies");
-            var packages = elements.Select(pair => new { Name = GetAssemblyName(pair.Key), Version = pair.Value }).Select(arg => new { Id = GetXpandPackageId(arg.Name),arg.Version }).OrderBy(arg => arg.Id).GroupBy(arg => arg.Id).Select(grouping => grouping.First());
+            var packages = dependencies.Select(pair 
+                => new { Name = GetAssemblyName(pair.Key), Version = pair.Value }).Select(arg 
+                    => new { Id = GetXpandPackageId(arg.Name), arg.Version }).OrderBy(arg => arg.Id).GroupBy(arg => arg.Id).Select(grouping => grouping.First());
             foreach (var package in packages) {
                 var dependencyElement = new XElement(XNamespace + "dependency");
                 dependencyElement.SetAttributeValue("id",package.Id);
@@ -127,7 +132,7 @@ namespace FixReferences {
                 var adjustName = AdjustName(assemblyName).ToLowerInvariant();
                 var nuspec = FindNuspec(adjustName);
                 if (nuspec == null){
-                    var strings = new []{"utils","xpo","persistent.base","persistent.baseimpl","emailtemplateengine"};
+                    var strings = new []{"utils","xpo","persistent.base","persistent.baseimpl"};
                     if (strings.Any(adjustName.Contains))
                         nuspec = FindNuspec("lib");
                     else if (adjustName.Contains("win"))
@@ -194,10 +199,12 @@ namespace FixReferences {
             return indexOf == -1 ? value : value.Substring(0, indexOf);
         }
 
-        private IEnumerable<KeyValuePair<string,IEnumerable<XElement>>> GetReferences(IEnumerable<string> projects){
+        private IEnumerable<KeyValuePair<string,IEnumerable<XElement>>> GetReferences(IEnumerable<string> projects,params  string[] excluded){
+            if (excluded==null)
+                excluded=new string[0];
             return projects.Select(s =>{
                 var document = XDocument.Load(s);
-                var strings = new []{"DevExpress","System","Microsoft"};
+                var strings = new []{"DevExpress","Microsoft"}.Concat(excluded);
                 var xElements = document.Descendants(ProjectUpdater.XNamespace + "Reference")
                     .Where(element => !strings.Any(s1 => element.Attribute("Include").Value.StartsWith(s1)));
                 if (Program.Options.AfterBuild){
