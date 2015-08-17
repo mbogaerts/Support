@@ -13,6 +13,7 @@
 					Xpand.EasyTest\Xpand.ExpressApp.EasyTest.WebAdapter\Xpand.ExpressApp.EasyTest.WebAdapter.csproj;
 					Xpand.EasyTest\Xpand.ExpressApp.EasyTest.WinAdapter\Xpand.ExpressApp.EasyTest.WinAdapter.csproj;"/>
     <HelperProjects Include="
+					Support\DistribNugetAssemblies\DistribNugetAssemblies.csproj;
 					Support\ToolboxCreator\Xpand.ToolboxCreator.csproj;
 					Support\VideoBuilder\VideoBuilder.csproj;
 					Support\ProcessAsUser\ProcessAsUser.csproj;

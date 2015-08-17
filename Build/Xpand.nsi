@@ -334,6 +334,12 @@ Function InstallProjectTemplates
     call InstallProjectTemplatesFiles
     WriteRegStr HKLM "${REGKEY}" "VS12Path" $0
 	
+	ReadRegStr $0 HKLM "Software\Microsoft\VisualStudio\14.0" "InstallDir"
+    StrCmp $0 "" +4 0
+    Push $0
+    call InstallProjectTemplatesFiles
+    WriteRegStr HKLM "${REGKEY}" "VS14Path" $0
+	
 	Exec  "$0devenv.exe /InstallVSTemplates"
     
 	Pop $0
@@ -351,11 +357,23 @@ Function un.InstallProjectTemplates
     StrCmp $0 "" +3 0
     Push $0
     call un.InstallProjectTemplatesFiles
+	
+	ReadRegStr $0 HKLM "${REGKEY}" VS12Path
+    StrCmp $0 "" +3 0
+    Push $0
+    call un.InstallProjectTemplatesFiles
+	
+	ReadRegStr $0 HKLM "${REGKEY}" VS14Path
+    StrCmp $0 "" +3 0
+    Push $0
+    call un.InstallProjectTemplatesFiles
     
     Pop $0
     
     DeleteRegValue HKLM "${REGKEY}" VS9Path
     DeleteRegValue HKLM "${REGKEY}" VS10Path
+    DeleteRegValue HKLM "${REGKEY}" VS12Path
+    DeleteRegValue HKLM "${REGKEY}" VS14Path
 FunctionEnd
 
 Function CreateSMGroupShortcut

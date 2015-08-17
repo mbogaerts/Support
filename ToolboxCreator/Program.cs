@@ -11,7 +11,9 @@ using DevExpress.Utils;
 using Microsoft.Win32;
 
 namespace Xpand.ToolboxCreator {
-    class Program {
+    class Program{
+        private const string Toolboxcreatorlog = "toolboxcreator.log";
+        private static readonly int[] _vsVersions = {10, 11, 12, 14};
         static void Main(string[] args) {
             
             var isWow64 = InternalCheckIsWow64();
@@ -28,11 +30,13 @@ namespace Xpand.ToolboxCreator {
             }
             CreateAssemblyFoldersKey(wow);
             Trace.AutoFlush = true;
-            Trace.Listeners.Add(new TextWriterTraceListener("toolboxcreator.log"){Name = "FileLog"});
+            Trace.Listeners.Add(new TextWriterTraceListener(Toolboxcreatorlog){Name = "FileLog"});
             Trace.Listeners.Add(new ConsoleTraceListener{Name = "ConsoleLog"});
             var version = new Version();
             var error = false;
-            foreach (var file in Directory.EnumerateFiles(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Xpand.ExpressApp*.dll")) {
+            var files = Directory.EnumerateFiles(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Xpand.ExpressApp*.dll").ToArray();
+            Trace.TraceInformation(files.Length+" eXpand Assemblies found");
+            foreach (var file in files) {
                 try {
                     var assembly = Assembly.LoadFrom(file);
                     if (version==new Version()) {
@@ -49,16 +53,18 @@ namespace Xpand.ToolboxCreator {
                 catch (Exception exception) {
                     error = true;
                     var reflectionTypeLoadException = exception as ReflectionTypeLoadException;
-                    Trace.TraceError(reflectionTypeLoadException!=null?reflectionTypeLoadException.LoaderExceptions[0].Message: exception.ToString());   
+                    Trace.TraceError(reflectionTypeLoadException!=null?reflectionTypeLoadException.LoaderExceptions[0].Message: exception.ToString());
                 }
             }
             if (error) {
                 MessageBox.Show("Error logged in toolboxcreator.log");
+                var process = new Process{StartInfo = new ProcessStartInfo(Toolboxcreatorlog){WorkingDirectory = Environment.CurrentDirectory}};
+                process.Start();
             }
-            DeleteXpandEntries(registryKeys,s => !s.Contains(version.ToString()) );
+            DeleteXpandEntries(registryKeys,s => !s.Contains(version.ToString()));
 
-            foreach (var vsVersion in new[]{"10","11"}){
-                NotifyVS(wow, vsVersion);
+            foreach (var vsVersion in _vsVersions) {
+                NotifyVS(wow, vsVersion.ToString());
             }
         }
 
@@ -111,8 +117,7 @@ namespace Xpand.ToolboxCreator {
 
         static List<RegistryKey> RegistryKeys(string wow) {
             var registryKeys = new List<RegistryKey>();
-            var versions = new []{10,11,12};
-            foreach (var version in versions){
+            foreach (var version in _vsVersions){
                 registryKeys.AddRange(new[]{
                    Registry.LocalMachine.OpenSubKey(@"SOFTWARE\" + wow + @"Microsoft\VisualStudio\"+version + @".0\ToolboxControlsInstaller\", true), 
                    Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\VisualStudio\" +version+ @".0_Config\ToolboxControlsInstaller\", true)
