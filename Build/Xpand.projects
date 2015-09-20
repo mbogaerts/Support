@@ -19,7 +19,7 @@
 					Support\ProcessAsUser\ProcessAsUser.csproj;
 					Support\ProcessAsUser\ProcessAsUserWrapper\ProcessAsUserWrapper.csproj;
 					Support\GacInstaller\GacInstaller.csproj"/>
-    <VSAddons Include="Xpand.Addins\XpandAddIns.csproj;Xpand.Addins\Xpand.ExpressApp.ModelEditor\Xpand.ExpressApp.ModelEditor.csproj;"></VSAddons>
+    <VSAddons Include="Xpand.CodeRush.Plugins\Xpand.CodeRush.Plugins.sln;"></VSAddons>
 	<ModuleProjects Include="
 					Xpand\Xpand.ExpressApp.Modules\Security\Xpand.ExpressApp.Security.csproj;
 					Xpand\Xpand.ExpressApp.Modules\Security.Win\Xpand.ExpressApp.Security.Win.csproj;
