@@ -104,8 +104,8 @@ namespace XpandTestExecutor.Module {
             string testExecutor = string.Format("TestExecutor.v{0}.exe", AssemblyInfo.VersionShort);
             var args = GetArguments(easyTest, debugMode);
             string shell=debugMode?"-s":null;
-            string arguments = isSystem ? string.Format("-e " + testExecutor + " -u {0} -p {1} -a {2} -t {3} "+shell, user.Name, user.Password,
-                    args, easyTest.Options.DefaultTimeout*60*1000): args;
+            string arguments = isSystem ? string.Format("-e " + testExecutor + " -u {0} -p {1} -a {2} -t {3} -d {4}"+shell, user.Name, user.Password,
+                    args, easyTest.Options.DefaultTimeout*60*1000, WindowsUser.Domain): args;
             string directoryName = Path.GetDirectoryName(easyTest.FileName) + "";
             var exe = isSystem ? "ProcessAsUser.exe" : testExecutor;
             var processStartInfo = new ProcessStartInfo(Path.Combine(directoryName, exe), arguments) {

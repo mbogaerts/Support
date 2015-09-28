@@ -12,6 +12,9 @@ namespace ProcessAsUser {
         [Option('u', "username", Required = true, HelpText = "A remote desktop session will be created with this user")]
         public string UserName { get; set; }
 
+        [Option('d', "Domain", Required = true, HelpText = "the user Domain")]
+        public string Domain { get; set; }
+
         [Option('p', "password", Required = true, HelpText = "The user password")]
         public string Password { get; set; }
 

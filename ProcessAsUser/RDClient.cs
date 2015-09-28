@@ -2,7 +2,6 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -28,7 +27,6 @@ namespace ProcessAsUser {
         private void RdpOnOnLogonError(object sender, IMsTscAxEvents_OnLogonErrorEvent e) {
             Program.Logger.Error("LogonError=" + e.lError);
         }
-
 
         private void CancelWaitForExit(){
             if (_cancellationTokenSource != null) _cancellationTokenSource.Cancel();
@@ -57,7 +55,7 @@ namespace ProcessAsUser {
             bool sessionExists = _processAsUser.SessionExists();
             Program.Logger.Info("SessionExists=" + sessionExists);
             if (!sessionExists)
-                Connect(_processAsUser.Options.UserName, _processAsUser.Options.Password);
+                Connect(_processAsUser.Options.UserName, _processAsUser.Options.Password,_processAsUser.Options.Domain);
             else{
                 _processAsUser.CreateProcess();
                 Close();
@@ -68,7 +66,7 @@ namespace ProcessAsUser {
             get { return rdp; }
         }
 
-        public void Connect(string userName, string password) {
+        public void Connect(string userName, string password, string domain) {
             rdp.DesktopWidth = 1440;
             rdp.DesktopHeight = 900;
             
@@ -79,7 +77,9 @@ namespace ProcessAsUser {
             rdp.Dock=DockStyle.Fill;
             rdp.BringToFront();
             rdp.Server = Environment.MachineName;
-            rdp.UserName = userName;
+            if (!string.IsNullOrEmpty(domain))
+                rdp.UserName = domain + @"\";
+            rdp.UserName += userName;
             var secured = (IMsTscNonScriptable)rdp.GetOcx();
             secured.ClearTextPassword = password;
             rdp.Connect();
@@ -88,7 +88,7 @@ namespace ProcessAsUser {
 
         private void button1_Click(object sender, EventArgs e) {
             try {
-                Connect(txtUserName.Text, txtPassword.Text);
+                Connect(txtUserName.Text, txtPassword.Text,null);
             }
             catch (Exception ex) {
                 MessageBox.Show("Error Connecting",

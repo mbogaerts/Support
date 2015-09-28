@@ -13,6 +13,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
     [FriendlyKeyProperty("Name")]
     [DefaultProperty("Name")]
     public class WindowsUser : BaseObject {
+        private const string RegistryPath = @"Software\Xpand\ProcessAsUser";
         public WindowsUser(Session session)
             : base(session) {
         }
@@ -27,9 +28,16 @@ namespace XpandTestExecutor.Module.BusinessObjects {
 
         public string Password { get; set; }
 
+        public static string Domain {
+            get{
+                var registryKey = Registry.LocalMachine.CreateSubKey(RegistryPath);
+                return registryKey != null ? registryKey.GetValue("Domain", null) as string : null;
+            }
+        }
+
         public static IEnumerable<WindowsUser> CreateUsers(UnitOfWork unitOfWork, bool isSystem) {
             if (isSystem) {
-                RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(@"Software\Xpand\ProcessAsUser");
+                RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(RegistryPath);
                 if (registryKey != null) {
                     var userNames = (string)registryKey.GetValue("UserName", "");
                     if (!string.IsNullOrEmpty(userNames)) {
