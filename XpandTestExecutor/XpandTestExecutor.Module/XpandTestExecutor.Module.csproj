@@ -160,6 +160,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CurrentSequenceOperator.cs" />
+    <Compile Include="CustomProcess.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="TestEnviroment.cs" />
     <Compile Include="TestRunner.cs" />

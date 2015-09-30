@@ -8,65 +8,44 @@ using System.Windows.Forms;
 using AxMSTSCLib;
 using MSTSCLib;
 
-namespace ProcessAsUser {
+namespace RDClient {
     public partial class RDClient : Form {
-        private readonly ProcessAsUser _processAsUser;
-        private CancellationTokenSource _cancellationTokenSource;
-
         public RDClient() {
             InitializeComponent();
-        }
-
-        public RDClient(ProcessAsUser processAsUser):this(){
-            _processAsUser = processAsUser;
             Load += OnLoad;
-            rdp.OnLoginComplete+=RdpOnOnLoginComplete;
+            rdp.OnLoginComplete += RdpOnOnLoginComplete;
             rdp.OnLogonError += RdpOnOnLogonError;
         }
 
         private void RdpOnOnLogonError(object sender, IMsTscAxEvents_OnLogonErrorEvent e) {
-            Program.Logger.Error("LogonError=" + e.lError);
-        }
-
-        private void CancelWaitForExit(){
-            if (_cancellationTokenSource != null) _cancellationTokenSource.Cancel();
+            Trace.TraceError("LogonError=" + e.lError);
         }
 
         private void RdpOnOnLoginComplete(object sender, EventArgs eventArgs){
-            Program.Logger.Info("LoginComplete");
+            Trace.TraceInformation("LoginComplete");
             Task task = Task.Factory.StartNew(() =>{
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
-                while (!_processAsUser.SessionExists()){
+                while (!RDSHelper.SessionExists(Options.Instance.UserName)){
                     Thread.Sleep(1000);
                     if (stopwatch.ElapsedMilliseconds < 5000)
                         break;
                 }
             });
             Task.WaitAll(task);
-            var createProcess = _processAsUser.CreateProcess();
-            Program.Logger.Info("CreateProcess="+createProcess);
-            CancelWaitForExit();
-            Close();
         }
 
         private void OnLoad(object sender, EventArgs eventArgs) {
-            Text = _processAsUser.Options.Arguments;
-            bool sessionExists = _processAsUser.SessionExists();
-            Program.Logger.Info("SessionExists=" + sessionExists);
-            if (!sessionExists)
-                Connect(_processAsUser.Options.UserName, _processAsUser.Options.Password,_processAsUser.Options.Domain);
-            else{
-                _processAsUser.CreateProcess();
-                Close();
-            }
+            var options = Options.Instance;
+            Text = options.UserName;
+            Connect(options.UserName,options.Password,Options.Instance.Domain);
         }
 
         public AxMsTscAxNotSafeForScripting Rdp {
             get { return rdp; }
         }
 
-        public void Connect(string userName, string password, string domain) {
+        public void Connect(string userName, string password, string domain=null) {
             rdp.DesktopWidth = 1440;
             rdp.DesktopHeight = 900;
             
@@ -77,18 +56,17 @@ namespace ProcessAsUser {
             rdp.Dock=DockStyle.Fill;
             rdp.BringToFront();
             rdp.Server = Environment.MachineName;
-            if (!string.IsNullOrEmpty(domain))
+            if (domain != null)
                 rdp.UserName = domain + @"\";
             rdp.UserName += userName;
             var secured = (IMsTscNonScriptable)rdp.GetOcx();
             secured.ClearTextPassword = password;
             rdp.Connect();
-            _cancellationTokenSource = Program.ExitOnTimeout(_processAsUser.Options);
         }
 
         private void button1_Click(object sender, EventArgs e) {
             try {
-                Connect(txtUserName.Text, txtPassword.Text,null);
+                Connect(txtUserName.Text, txtPassword.Text);
             }
             catch (Exception ex) {
                 MessageBox.Show("Error Connecting",

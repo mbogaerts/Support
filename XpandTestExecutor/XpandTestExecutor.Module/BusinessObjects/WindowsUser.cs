@@ -35,8 +35,8 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             }
         }
 
-        public static IEnumerable<WindowsUser> CreateUsers(UnitOfWork unitOfWork, bool isSystem) {
-            if (isSystem) {
+        public static IEnumerable<WindowsUser> CreateUsers(UnitOfWork unitOfWork, bool rdc) {
+            if (rdc) {
                 RegistryKey registryKey = Registry.LocalMachine.CreateSubKey(RegistryPath);
                 if (registryKey != null) {
                     var userNames = (string)registryKey.GetValue("UserName", "");

@@ -59,6 +59,9 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxInterop.MSTSCLib">
+      <HintPath>..\..\_third_party_assemblies\AxInterop.MSTSCLib.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.ExpressApp.Chart.v15.1">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -142,6 +145,10 @@
     </Reference>
     <Reference Include="DevExpress.XtraTreeList.v15.1">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Interop.MSTSCLib">
+      <HintPath>..\..\_third_party_assemblies\Interop.MSTSCLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>

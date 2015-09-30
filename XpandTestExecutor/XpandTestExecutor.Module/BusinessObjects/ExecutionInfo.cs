@@ -81,8 +81,8 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             SequenceGenerator.GenerateSequence(this);
         }
 
-        public static ExecutionInfo Create(UnitOfWork unitOfWork, bool isSystem) {
-            IEnumerable<WindowsUser> windowsUsers = WindowsUser.CreateUsers(unitOfWork, isSystem);
+        public static ExecutionInfo Create(UnitOfWork unitOfWork, bool rdc) {
+            IEnumerable<WindowsUser> windowsUsers = WindowsUser.CreateUsers(unitOfWork, rdc);
             var executionInfo = new ExecutionInfo(unitOfWork);
             executionInfo.WindowsUsers.AddRange(windowsUsers);
             return executionInfo;

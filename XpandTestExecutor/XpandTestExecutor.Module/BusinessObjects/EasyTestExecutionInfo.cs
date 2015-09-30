@@ -199,7 +199,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
 
-        public bool ExecutedFromSystem() {
+        public bool ExecutedFromOtherUser() {
             return WindowsUser.Name != null;
         }
     }

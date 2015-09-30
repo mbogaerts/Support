@@ -16,8 +16,6 @@
 					Support\DistribNugetAssemblies\DistribNugetAssemblies.csproj;
 					Support\ToolboxCreator\Xpand.ToolboxCreator.csproj;
 					Support\VideoBuilder\VideoBuilder.csproj;
-					Support\ProcessAsUser\ProcessAsUser.csproj;
-					Support\ProcessAsUser\ProcessAsUserWrapper\ProcessAsUserWrapper.csproj;
 					Support\GacInstaller\GacInstaller.csproj"/>
     <VSAddons Include="Xpand.CodeRush.Plugins\Xpand.CodeRush.Plugins.sln;"></VSAddons>
 	<ModuleProjects Include="

@@ -10,7 +10,7 @@ namespace XpandTestExecutor.Module.Controllers {
 
         internal const string Selected = "Selected";
         internal const string FromFile = "FromFile";
-        internal const string System = "System";
+        internal const string RDC = "RDC";
         private const string Current = "Current";
         private readonly SingleChoiceAction _userModeAction;
         private readonly SingleChoiceAction _selectionModeAction;
@@ -19,13 +19,10 @@ namespace XpandTestExecutor.Module.Controllers {
 
         public TestControllerHelper() {
             TargetWindowType=WindowType.Main;
-            var windowsIdentity = WindowsIdentity.GetCurrent();
-            Debug.Assert(windowsIdentity != null, "windowsIdentity != null");
 
             _userModeAction = new SingleChoiceAction(this, "UserMode", PredefinedCategory.Tools) { Caption = "Identity" };
-            _userModeAction.Items.Add(new ChoiceActionItem(System, System));
+            _userModeAction.Items.Add(new ChoiceActionItem(RDC, RDC));
             _userModeAction.Items.Add(new ChoiceActionItem(Current, Current));
-            _userModeAction.Active[""] = windowsIdentity.IsSystem;
 
             _selectionModeAction = new SingleChoiceAction(this, "SelectionMode", PredefinedCategory.Tools) { Caption = "Selection" };
             _selectionModeAction.Items.Add(new ChoiceActionItem(FromFile, FromFile));

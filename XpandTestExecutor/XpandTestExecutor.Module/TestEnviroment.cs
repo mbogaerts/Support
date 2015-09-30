@@ -6,7 +6,7 @@ using XpandTestExecutor.Module.BusinessObjects;
 
 namespace XpandTestExecutor.Module {
     public static class TestEnviroment {
-        static void KillProcessAsUser() {
+        public static void KillProcessAsUser() {
             var processes = Process.GetProcesses().Where(process => process.ProcessName.Contains("ProcessAsUser")).ToArray();
             foreach (var process in processes) {
                 process.Kill();
@@ -34,7 +34,7 @@ namespace XpandTestExecutor.Module {
         public static void Setup(EasyTest[] easyTests) {
             OptionsProvider.Init(easyTests.Select(test => test.FileName).ToArray());
             KillProcessAsUser();
-            if (!File.Exists(Path.Combine(Path.GetDirectoryName(easyTests.First().FileName)+"","processasuser.exe"))) {
+            if (!File.Exists(Path.Combine(Path.GetDirectoryName(easyTests.First().FileName)+"","rdclient.exe"))) {
                 var fileName = Path.GetFullPath(@"..\CopyEasyTestReqs.bat");
                 var processStartInfo = new ProcessStartInfo(fileName) {
                     WorkingDirectory = Path.GetDirectoryName(fileName) + ""

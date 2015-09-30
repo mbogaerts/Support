@@ -1,4 +1,4 @@
-namespace ProcessAsUser
+namespace RDClient
 {
     partial class RDClient
     {
@@ -119,7 +119,7 @@ namespace ProcessAsUser
             this.label3.TabIndex = 8;
             this.label3.Text = "Password";
             // 
-            // Form1
+            // RDClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -135,6 +135,7 @@ namespace ProcessAsUser
             this.Controls.Add(this.rdp);
             this.Name = "RDClient";
             this.Text = "Form1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.rdp)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

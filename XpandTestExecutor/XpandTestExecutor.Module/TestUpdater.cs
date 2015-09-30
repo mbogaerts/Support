@@ -26,12 +26,25 @@ namespace XpandTestExecutor.Module {
                 UpdateApplications(easyTestExecutionInfo);
                 UpdateAppBinAlias(easyTestExecutionInfo);
                 UpdateDataBases(easyTestExecutionInfo);
+                UpdateAlias(easyTestExecutionInfo);
                 easyTestExecutionInfo.EasyTest.SerializeOptions();
             }
             else {
                 string fileName = Path.Combine(Path.GetDirectoryName(easyTestExecutionInfo.EasyTest.FileName) + "","_config.xml");
                 File.Copy(fileName, Path.Combine(Path.GetDirectoryName(easyTestExecutionInfo.EasyTest.FileName) + "", "config.xml"), true);
             }
+        }
+
+        private static void UpdateAlias(EasyTestExecutionInfo easyTestExecutionInfo){
+            var options = easyTestExecutionInfo.EasyTest.Options;
+            var aliases = options.Aliases.Cast<TestAlias>();
+            var database = options.TestDatabases.Cast<TestDatabase>().Select(db => Regex.Replace(db.DBName, "(.*)_" + easyTestExecutionInfo.WindowsUser.Name, "$1", RegexOptions.Singleline)).FirstOrDefault();
+            if (database!=null)
+                foreach (var aliase in aliases.Where(@alias => alias.Name.ToLower().StartsWith("sqlconnection"))){
+                    aliase.Value = Regex.Replace(aliase.Value, @"(.*)" + database + "(.*)",
+                        "$1" + database + "_" + easyTestExecutionInfo.WindowsUser.Name + "$2", RegexOptions.Singleline);
+                }
+                
         }
 
         private static void UpdateApplications(EasyTestExecutionInfo easyTestExecutionInfo) {

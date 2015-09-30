@@ -33,12 +33,13 @@ namespace XpandTestExecutor.Win {
 #endif
             try {
                 winApplication.Setup();
+//                args=new string[]{"easytests.txt"};
                 if (args.Length > 0){
                     var windowsIdentity = WindowsIdentity.GetCurrent();
                     Debug.Assert(windowsIdentity != null, "windowsIdentity != null");
                     var finished = false;
                     winApplication.CreateObjectSpace();
-                    TestRunner.Execute(args[0], windowsIdentity.IsSystem,task => finished=true,false);   
+                    TestRunner.Execute(args[0], true,task => finished=true,false);   
                     do {
                         Thread.Sleep(5000);
                     } while (!finished);

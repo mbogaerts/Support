@@ -72,31 +72,32 @@ namespace XpandTestExecutor.Module.Controllers {
         }
 
         private void RunTestActionOnExecute(object sender, SimpleActionExecuteEventArgs e) {
-            var isSystemMode = IsSystemMode();
+            var rdc = IsRDC();
             if (_runTestAction.Caption==CancelRun){
                 if (_cancellationTokenSource != null) {
                     _cancellationTokenSource.Cancel();
                     var executionInfo = ObjectSpace.FindObject<ExecutionInfo>(info=>info.Sequence==CurrentSequenceOperator.CurrentSequence);
                     var users = executionInfo.EasyTestRunningInfos.Select(info => info.WindowsUser.Name).Where(s => s!=null).ToArray();
                     EnviromentEx.LogOffAllUsers(users);
+                    TestEnviroment.KillProcessAsUser();
                 }
                 _runTestAction.Caption = Run;
             }
             else if (ReferenceEquals(SelectionModeAction.SelectedItem.Data, TestControllerHelper.Selected)) {
                 _runTestAction.Caption = CancelRun;
-                if (!isSystemMode) {
+                if (!rdc) {
                     _unlinkTestAction.DoExecute();
                 }
-                _cancellationTokenSource = TestRunner.Execute(e.SelectedObjects.Cast<EasyTest>().ToArray(), isSystemMode,IsDebug,
+                _cancellationTokenSource = TestRunner.Execute(e.SelectedObjects.Cast<EasyTest>().ToArray(), rdc,IsDebug,
                     task => _runTestAction.Caption = Run);}
             else {
                 var fileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "EasyTests.txt");
-                TestRunner.Execute(fileName, isSystemMode);
+                TestRunner.Execute(fileName, rdc);
             }
         }
 
-        private bool IsSystemMode() {
-            return SelectionModeAction.Active && ReferenceEquals(UserModeAction.SelectedItem.Data, TestControllerHelper.System);
+        private bool IsRDC(){
+            return SelectionModeAction.Active && ReferenceEquals(UserModeAction.SelectedItem.Data, TestControllerHelper.RDC);
         }
 
         public void ExtendModelInterfaces(ModelInterfaceExtenders extenders) {
