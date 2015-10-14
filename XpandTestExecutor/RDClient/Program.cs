@@ -13,7 +13,8 @@ namespace RDClient {
         [STAThread]
         static void Main(string[] args){
             Trace.AutoFlush = true;
-            var directoryName = Path.GetDirectoryName(AppDomain.CurrentDomain.SetupInformation.ApplicationBase) + "";
+            Trace.UseGlobalLock = false;
+            var directoryName = Path.GetDirectoryName(typeof(Program).Assembly.Location) + "";
             var streamWriter = File.CreateText(Path.Combine(directoryName, "rdclient.log"));
             Trace.Listeners.Add(new TextWriterTraceListener(streamWriter));
             bool arguments = Parser.Default.ParseArguments(args, Options.Instance);

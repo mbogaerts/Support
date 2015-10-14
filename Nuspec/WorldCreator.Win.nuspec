@@ -16,9 +16,9 @@ http://apobekiaris.blogspot.com/search/label/WorldCreator</description>
     <copyright>eXpandFramework.com</copyright>
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <dependencies>
-      <dependency id="eXpandLib" version="15.1.7.2" />
-      <dependency id="eXpandSecurityWin" version="15.1.7.2" />
-      <dependency id="eXpandWorldCreator" version="15.1.7.2" />
+      <dependency id="eXpandLib" version="15.1.7.3" />
+      <dependency id="eXpandSecurityWin" version="15.1.7.3" />
+      <dependency id="eXpandWorldCreator" version="15.1.7.3" />
     </dependencies>
   </metadata>
   <files>

@@ -35,10 +35,12 @@ namespace XpandTestExecutor.Module {
         private static void RunTest(Guid easyTestKey, IDataLayer dataLayer, bool rdc, bool debugMode) {
             CustomProcess process;
             int timeout;
+            string easyTestName;
             lock (_locker) {
                 using (var unitOfWork = new UnitOfWork(dataLayer)) {
                     var easyTest = unitOfWork.GetObjectByKey<EasyTest>(easyTestKey, true);
-                    Tracing.Tracer.LogValue("RunTest",easyTest.Name+"/"+easyTest.Application);
+                    easyTestName = easyTest.Name+"/"+easyTest.Application;
+                    Tracing.Tracer.LogValue("RunTest",easyTestName);
                     timeout = easyTest.Options.DefaultTimeout*60*1000;
                     try {
                         var lastEasyTestExecutionInfo = easyTest.LastEasyTestExecutionInfo;
@@ -61,9 +63,13 @@ namespace XpandTestExecutor.Module {
                     }
                 }
             }
-            
-            var task = Task.Factory.StartNew(() => process.WaitForExit(timeout)).TimeoutAfter(timeout);
+
+            var task = Task.Factory.StartNew(() =>{
+                Tracing.Tracer.LogValue("WaitForExit", easyTestName);
+                process.WaitForExit(timeout);
+            }).TimeoutAfter(timeout,() => Tracing.Tracer.LogValue("Timeout",easyTestName));
             Task.WaitAll(task);
+            Tracing.Tracer.LogValue("CloseRDClient",easyTestName);
             process.CloseRDClient();
             try {
                 AfterProcessExecute(dataLayer, easyTestKey);
