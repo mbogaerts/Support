@@ -62,12 +62,13 @@ namespace XpandTestExecutor.Module{
 
         private ProcessStartInfo CreateStartInfo(int sessionId=0){
             var workingDirectory = Path.GetDirectoryName(_easyTest.FileName) + "";
+            var executorWrapper = "executorwrapper.exe";
             var testExecutor = string.Format("TestExecutor.v{0}.exe", AssemblyInfo.VersionShort);
             var debugModeArgs = _debugMode ? @"""-d:""" : null;
             var testExecutorArgs =Path.Combine(workingDirectory,_easyTest.FileName);
             var arguments = string.Format("/accepteula -u {0}\\{1} -p {2} -w {3} -h -i {4} {5}", WindowsUser.Domain,
                 _windowsUser.Name, _windowsUser.Password, @"""" + workingDirectory + @"""", sessionId,
-                @"""" + Path.Combine(workingDirectory, testExecutor) + @""" """ + testExecutorArgs + @""" "+debugModeArgs);
+                @"""" + Path.Combine(workingDirectory, executorWrapper) + @""" "+testExecutor +@" """ + testExecutorArgs + @""" "+debugModeArgs);
             return new ProcessStartInfo {
                 WorkingDirectory = workingDirectory,
                 FileName = _rdc ? "psexec" : testExecutor,

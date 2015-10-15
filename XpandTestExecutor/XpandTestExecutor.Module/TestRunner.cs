@@ -64,11 +64,13 @@ namespace XpandTestExecutor.Module {
                 }
             }
 
-            var task = Task.Factory.StartNew(() =>{
+            var complete = Task.Factory.StartNew(() =>{
                 Tracing.Tracer.LogValue("WaitForExit", easyTestName);
-                process.WaitForExit(timeout);
-            }).TimeoutAfter(timeout,() => Tracing.Tracer.LogValue("Timeout",easyTestName));
-            Task.WaitAll(task);
+                process.WaitForExit();
+            }).TimeoutAfter(timeout).WaitToCompleteOrTimeOut();
+            if (!complete)
+                Tracing.Tracer.LogValue("TimeOut", easyTestName);
+
             Tracing.Tracer.LogValue("CloseRDClient",easyTestName);
             process.CloseRDClient();
             try {

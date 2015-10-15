@@ -3,8 +3,10 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.ExpressApp.Security;
+using Xpand.Utils.Threading;
 using XpandTestExecutor.Module;
 
 namespace XpandTestExecutor.Win {
@@ -13,7 +15,10 @@ namespace XpandTestExecutor.Win {
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main(string[] args) {
+        static void Main(string[] args){
+            
+
+
 #if EASYTEST
             DevExpress.ExpressApp.Win.EasyTest.EasyTestRemotingRegistration.Register();
 #endif
