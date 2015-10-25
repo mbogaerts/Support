@@ -36,7 +36,6 @@
                     Xpand\Xpand.ExpressApp.Modules\AuditTrail\Xpand.ExpressApp.AuditTrail.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Chart.Win\Xpand.ExpressApp.Chart.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Dashboard\Xpand.ExpressApp.Dashboard.csproj;
-                    Xpand\Xpand.ExpressApp.Modules\EmailTemplateEngine\Xpand.EmailTemplateEngine.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Email\Xpand.ExpressApp.Email.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment\Xpand.ExpressApp.FileAttachment.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment.Web\Xpand.ExpressApp.FileAttachment.Web.csproj;
