@@ -24,9 +24,8 @@ namespace XpandTestExecutor.Module{
         public new void Start(){
             if (_rdc){
                 _serverStream = new NamedPipeServerStream(_windowsUser.Name, PipeDirection.InOut, 1);
-                var task = Task.Factory.StartNew(StartClient);
+                Task.Factory.StartNew(StartClient);
                 _serverStream.WaitForConnection();
-                Task.WaitAll(task);
                 var sessionId = GetSessionId();
                 StartInfo=CreateStartInfo(sessionId);
             }
@@ -37,8 +36,9 @@ namespace XpandTestExecutor.Module{
         }
 
         private void StartClient(){
+            string domain =!string.IsNullOrEmpty(WindowsUser.Domain)? " -d " + WindowsUser.Domain:null;
             var processStartInfo = new ProcessStartInfo("RDClient.exe",
-                "-u " + _windowsUser.Name + " -p " + _windowsUser.Password + " -d " + WindowsUser.Domain){
+                "-u " + _windowsUser.Name + " -p " + _windowsUser.Password + domain){
                     FileName = "RDClient.exe",
                     CreateNoWindow = true,WorkingDirectory = Path.GetDirectoryName(_easyTest.FileName)+""
                 };

@@ -14,7 +14,7 @@ namespace RDClient{
         [Option('p', "password", Required = true, HelpText = "The user password")]
         public string Password { get; set; }
         
-        [Option('d', "domain", Required = true, HelpText = "The network domain")]
+        [Option('d', "domain",  HelpText = "The network domain")]
         public string Domain { get; set; }
 
         [ParserState]
