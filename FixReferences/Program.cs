@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Linq;
+using System.Text.RegularExpressions;
 using CommandLine;
-
 
 namespace FixReferences {
     class Program {
@@ -29,7 +28,11 @@ namespace FixReferences {
             DeleteBackupFolders(rootDir);
             var version = GetVersion(rootDir);
             var documentHelper = new DocumentHelper();
-            var projectFiles = GetProjects(rootDir).ToArray();
+            var slnFiles = GetFiles(rootDir, "*.sln").ToArray();
+            foreach (var slnFile in slnFiles){
+                DebugConfigForEasyTestBuild(slnFile);
+            }
+            var projectFiles = GetFiles(rootDir, "*.csproj").ToArray();
             foreach (var file in projectFiles) {
                 var projectReferencesUpdater = new ProjectUpdater(documentHelper,rootDir,version);
                 projectReferencesUpdater.Update(file);
@@ -43,8 +46,14 @@ namespace FixReferences {
             return true;
         }
 
-        private static IEnumerable<string> GetProjects(string rootDir){
-            var files = Directory.GetFiles(rootDir, "*.csproj", SearchOption.AllDirectories);
+        private static void DebugConfigForEasyTestBuild(string file){
+            var text = File.ReadAllText(file);
+            text = Regex.Replace(text, @"(EasyTest\|Any CPU\.ActiveCfg = )(Release)(\|Any CPU)", "$1Debug$3", RegexOptions.Singleline);
+            File.WriteAllText(file, text);
+        }
+
+        private static IEnumerable<string> GetFiles(string rootDir,string pattern){
+            var files = Directory.GetFiles(rootDir, pattern, SearchOption.AllDirectories);
             return files.Where(s => !_excludedDirs.Any(dir => s.IndexOf(dir, StringComparison.Ordinal) > -1));
         }
 
@@ -64,4 +73,5 @@ namespace FixReferences {
             }
         }
     }
+
 }
