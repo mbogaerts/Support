@@ -20,7 +20,6 @@ namespace XpandTestExecutor.Module {
         }
 
         public static void UpdateTestConfig(EasyTestExecutionInfo easyTestExecutionInfo, bool unlink) {
-
             if (!unlink) {
                 UpdatePort(easyTestExecutionInfo);
                 UpdateApplications(easyTestExecutionInfo);
@@ -44,7 +43,20 @@ namespace XpandTestExecutor.Module {
                     aliase.Value = Regex.Replace(aliase.Value, @"(.*)" + database + "(.*)",
                         "$1" + database + "_" + easyTestExecutionInfo.WindowsUser.Name + "$2", RegexOptions.Singleline);
                 }
-                
+            UserNameAlias(options,easyTestExecutionInfo.WindowsUser.Name);
+        }
+
+        private static void UserNameAlias(Options options, string userName){
+            var testAlias = options.Aliases.Cast<TestAlias>().FirstOrDefault(@alias => alias.Name.ToLower() == "username") ;
+            if (testAlias!=null)
+                testAlias.Value = userName;
+            else{
+                testAlias = new TestAlias{
+                    Name = "UserName",
+                    Value = userName
+                };
+                options.Aliases.Add(testAlias);
+            }
         }
 
         private static void UpdateApplications(EasyTestExecutionInfo easyTestExecutionInfo) {

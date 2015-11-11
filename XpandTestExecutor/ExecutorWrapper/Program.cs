@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 
 namespace ExecutorWrapper {
     class Program {
@@ -17,7 +16,9 @@ namespace ExecutorWrapper {
         static void Main(string[] args){
             var handle = GetConsoleWindow();
             ShowWindow(handle, SW_HIDE);
-            var processStartInfo = new ProcessStartInfo() { FileName = args[0], Arguments = string.Join(" ", args.Skip(1)), UseShellExecute = false, CreateNoWindow = true };
+            var arguments = string.Join(" ", args.Skip(1));
+            var debugMode = arguments.Contains("-d:");
+            var processStartInfo = new ProcessStartInfo { FileName = args[0], Arguments = arguments, UseShellExecute = debugMode, CreateNoWindow = debugMode };
             var process = new Process(){StartInfo = processStartInfo};
             process.Start();
             process.WaitForExit();
