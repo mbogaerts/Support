@@ -79,8 +79,6 @@
                     Xpand\Xpand.ExpressApp.Modules\WorldCreator.Web\Xpand.ExpressApp.WorldCreator.Web.csproj;
                     Xpand\Xpand.ExpressApp.Modules\XtraDashboard.Web\Xpand.ExpressApp.XtraDashboard.Web.csproj;
                     Xpand\Xpand.ExpressApp.Modules\XtraDashboard.Win\Xpand.ExpressApp.XtraDashboard.Win.csproj;
-					Xpand\Xpand.ExpressApp.Modules\MemberLevelSecurity\Xpand.ExpressApp.MemberLevelSecurity.csproj;
-					Xpand\Xpand.ExpressApp.Modules\MemberLevelSecurity.Win\Xpand.ExpressApp.MemberLevelSecurity.Win.csproj;
                     Xpand\Xpand.Persistent\Xpand.Persistent.BaseImpl\Xpand.Persistent.BaseImpl.csproj;
 					Xpand\Xpand.ExpressApp.Modules\JobScheduler.Jobs\Xpand.ExpressApp.JobScheduler.Jobs.csproj;"/>
 	<NHProjects Include="
@@ -93,7 +91,6 @@
 					Xpand\Xpand.NH\NHibernateService\Xpand.ExpressApp.NH.Service.csproj;
 					Xpand\Xpand.NH\Xpand.NH.sln"/>
     <DemoSolutions Include="
-					Demos\EFDemoCodeFirst\EFDemoCodeFirst.sln;
 					Demos\FeatureCenter\FeatureCenterVS2010.sln;
 					Demos\Middle Tier\E4035-Remoting\E4035.sln;
 					Demos\Middle Tier\E4036-WCF\E4036.sln;
