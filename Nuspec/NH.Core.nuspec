@@ -13,7 +13,9 @@
     <copyright>eXpandFramework.com</copyright>
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com/#AVC</projectUrl>
-    <dependencies />
+    <dependencies>
+      <dependency id="Serialize.Linq" version="1.2.4" />
+    </dependencies>
   </metadata>
   <files>
     <file src="\Build\Temp\Xpand.ExpressApp.NH.Core.dll" target="lib\net40\Xpand.ExpressApp.NH.Core.dll" />

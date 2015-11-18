@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -15,7 +14,8 @@ namespace DistribNugetAssemblies {
                         var distribPaths = new []{@"..\Build\Temp\",@"..\build\installer\xpand.dll\"};
                         foreach (var distribPath in distribPaths){
                             var destFileName = Path.GetFullPath(distribPath+Path.GetFileName(nugetAssembly));
-                            File.Copy(nugetAssembly, destFileName, true);    
+                            if (File.Exists(nugetAssembly))
+                                File.Copy(nugetAssembly, destFileName, true);    
                         }
                     }
                 }
