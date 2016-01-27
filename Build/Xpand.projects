@@ -38,6 +38,7 @@
                     Xpand\Xpand.ExpressApp.Modules\Dashboard\Xpand.ExpressApp.Dashboard.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Email\Xpand.ExpressApp.Email.csproj;
                     Xpand\Xpand.ExpressApp.Modules\ExceptionHandling\Xpand.ExpressApp.ExceptionHandling.csproj;
+					Xpand\Xpand.ExpressApp.Modules\ExceptionHandling.Win\Xpand.ExpressApp.ExceptionHandling.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment\Xpand.ExpressApp.FileAttachment.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment.Web\Xpand.ExpressApp.FileAttachment.Web.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FilterDataStore\Xpand.ExpressApp.FilterDataStore.csproj;
