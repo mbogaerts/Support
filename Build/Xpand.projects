@@ -37,6 +37,7 @@
                     Xpand\Xpand.ExpressApp.Modules\Chart.Win\Xpand.ExpressApp.Chart.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Dashboard\Xpand.ExpressApp.Dashboard.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Email\Xpand.ExpressApp.Email.csproj;
+                    Xpand\Xpand.ExpressApp.Modules\ExceptionHandling\Xpand.ExpressApp.ExceptionHandling.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment\Xpand.ExpressApp.FileAttachment.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment.Web\Xpand.ExpressApp.FileAttachment.Web.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FilterDataStore\Xpand.ExpressApp.FilterDataStore.csproj;
@@ -90,6 +91,10 @@
 					Xpand\Xpand.NH\TestEntities\TestEntities.csproj;
 					Xpand\Xpand.NH\NHibernateService\Xpand.ExpressApp.NH.Service.csproj;
 					Xpand\Xpand.NH\Xpand.NH.sln"/>
+	<EFProjects Include="
+					Xpand\Xpand.EF\Xpand.EF\Xpand.EF.csproj;
+					Xpand\Xpand.EF\Xpand.Persistent.Base.EF\Xpand.Persistent.Base.EF.csproj;
+					Xpand\Xpand.EF\Xpand.Persistent.BaseImpl.EF\Xpand.Persistent.BaseImpl.EF.csproj" />					
     <DemoSolutions Include="
 					Demos\FeatureCenter\FeatureCenterVS2010.sln;
 					Demos\Middle Tier\E4035-Remoting\E4035.sln;
