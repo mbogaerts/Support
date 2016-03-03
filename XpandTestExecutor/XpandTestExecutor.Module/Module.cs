@@ -3,9 +3,10 @@ using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.DC;
 using System.Collections.Generic;
 using DevExpress.ExpressApp.Updating;
+using XpandTestExecutor.Module.Services;
 
 namespace XpandTestExecutor.Module {
-    // For more typical usage scenarios, be sure to check out http://documentation.devexpress.com/#Xaf/clsDevExpressExpressAppModuleBasetopic.
+
     public sealed partial class XpandTestExecutorModule : ModuleBase {
         public XpandTestExecutorModule() {
             InitializeComponent();

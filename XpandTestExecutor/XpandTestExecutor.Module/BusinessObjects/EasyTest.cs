@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using DevExpress.EasyTest.Framework;
 using DevExpress.ExpressApp;
@@ -11,6 +12,7 @@ using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
 using Xpand.Persistent.Base.General;
 using Xpand.Persistent.Base.General.CustomAttributes;
+using XpandTestExecutor.Module.Services;
 
 namespace XpandTestExecutor.Module.BusinessObjects {
     [DefaultClassOptions]
@@ -22,8 +24,6 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         public EasyTest(Session session)
             : base(session) {
         }
-
-
 
         public LogTest[] GetLogTests() {
             var directoryName = Path.GetDirectoryName(FileName) + "";
@@ -159,12 +159,19 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             return new XPQuery<ExecutionInfo>(Session).FirstOrDefault(info => info.EasyTestExecutionInfos.Any(executionInfo => executionInfo.EasyTest.Oid == Oid && executionInfo.State == EasyTestState.Passed));
         }
 
-        public void SerializeOptions() {
+        public void SerializeOptions(string userName) {
             string configPath = Path.GetDirectoryName(FileName) + "";
             string fileName = Path.Combine(configPath, "config.xml");
             using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite)) {
                 new XmlSerializer(typeof(Options)).Serialize(fileStream, Options);
             }
+            var document = XDocument.Load(fileName);
+            var applicationElement = document.Descendants("Application").FirstOrDefault(element => element.Attributes("PhysicalPath").Any()&& element.Attributes("DontUseIIS").All(attribute => attribute.Value != "True"));
+            if (applicationElement != null){
+                applicationElement.SetAttributeValue("UseIIS", "True");
+                applicationElement.SetAttributeValue("UserName",userName);
+            }
+            document.Save(fileName);
         }
     }
 }

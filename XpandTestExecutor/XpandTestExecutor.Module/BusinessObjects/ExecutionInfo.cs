@@ -9,6 +9,7 @@ using DevExpress.Xpo;
 using Xpand.Persistent.Base.General;
 using Xpand.Persistent.Base.General.CustomAttributes;
 using XpandTestExecutor.Module.Controllers;
+using XpandTestExecutor.Module.Services;
 
 namespace XpandTestExecutor.Module.BusinessObjects {
     [DefaultProperty("Sequence")]

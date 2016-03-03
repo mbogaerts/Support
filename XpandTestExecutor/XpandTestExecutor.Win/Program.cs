@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using DevExpress.ExpressApp.Security;
 using Xpand.Utils.Threading;
 using XpandTestExecutor.Module;
+using XpandTestExecutor.Module.Services;
 
 namespace XpandTestExecutor.Win {
     static class Program {

@@ -3,6 +3,7 @@ using DevExpress.ExpressApp;
 using Xpand.Persistent.Base.General;
 using Xpand.Persistent.Base.General.Controllers.Dashboard;
 using XpandTestExecutor.Module.BusinessObjects;
+using XpandTestExecutor.Module.Services;
 
 namespace XpandTestExecutor.Module.Controllers {
     public class EasyTestDashBoardController : ViewController<DashboardView> {

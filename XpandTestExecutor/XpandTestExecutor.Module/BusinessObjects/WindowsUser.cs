@@ -7,6 +7,7 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
 using Microsoft.Win32;
+using XpandTestExecutor.Module.Services;
 
 namespace XpandTestExecutor.Module.BusinessObjects {
     [DefaultClassOptions]

@@ -11,6 +11,7 @@ using DevExpress.Xpo;
 using Xpand.Persistent.Base.General;
 using Xpand.Utils.Helpers;
 using XpandTestExecutor.Module.BusinessObjects;
+using XpandTestExecutor.Module.Services;
 
 namespace XpandTestExecutor.Module.Controllers {
     public interface IModelOptionsTestExecutor {
