@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using DevExpress.EasyTest.Framework;
@@ -162,7 +163,11 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         public void SerializeOptions(string userName) {
             string configPath = Path.GetDirectoryName(FileName) + "";
             string fileName = Path.Combine(configPath, "config.xml");
-            using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite)) {
+            File.Delete(fileName);
+            while (File.Exists(fileName)){
+                Thread.Sleep(100);
+            }
+            using (var fileStream = new FileStream(fileName, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite)) {
                 new XmlSerializer(typeof(Options)).Serialize(fileStream, Options);
             }
             var document = XDocument.Load(fileName);
@@ -170,8 +175,9 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             if (applicationElement != null){
                 applicationElement.SetAttributeValue("UseIIS", "True");
                 applicationElement.SetAttributeValue("UserName",userName);
+                document.Save(fileName);
             }
-            document.Save(fileName);
+            
         }
     }
 }
