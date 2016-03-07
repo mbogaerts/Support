@@ -21,7 +21,7 @@ namespace XpandTestExecutor.Module.Services {
 
         public static void UpdateTestConfig(EasyTestExecutionInfo easyTestExecutionInfo, bool unlink) {
             if (!unlink){
-                IngoreWebApplication(easyTestExecutionInfo.EasyTest);
+//                IngoreWebApplication(easyTestExecutionInfo.EasyTest);
                 UpdatePort(easyTestExecutionInfo);
                 UpdateApplications(easyTestExecutionInfo);
                 UpdateAppBinAlias(easyTestExecutionInfo);

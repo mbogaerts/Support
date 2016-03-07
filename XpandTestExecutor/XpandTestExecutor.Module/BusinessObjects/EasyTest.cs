@@ -171,7 +171,10 @@ namespace XpandTestExecutor.Module.BusinessObjects {
                 new XmlSerializer(typeof(Options)).Serialize(fileStream, Options);
             }
             var document = XDocument.Load(fileName);
-            var applicationElement = document.Descendants("Application").FirstOrDefault(element => element.Attributes("PhysicalPath").Any()&& element.Attributes("DontUseIIS").All(attribute => attribute.Value != "True"));
+            var applicationElement =
+                document.Descendants("Application").FirstOrDefault(element =>
+                            element.Attributes("PhysicalPath").Any() &&
+                            element.Attributes("DontUseIIS").All(attribute => attribute.Value != "True"));
             if (applicationElement != null){
                 applicationElement.SetAttributeValue("UseIIS", "True");
                 applicationElement.SetAttributeValue("UserName",userName);
