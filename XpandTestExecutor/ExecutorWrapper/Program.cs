@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace ExecutorWrapper {
     class Program {
@@ -24,7 +25,7 @@ namespace ExecutorWrapper {
             ShowWindow(handle, SW_HIDE);
             var arguments = string.Join(" ", args.Skip(1));
             var debugMode = arguments.Contains("-d:");
-            var processStartInfo = new ProcessStartInfo { FileName = args[0], Arguments = @"""" + arguments + @"""", UseShellExecute = debugMode, CreateNoWindow = debugMode, RedirectStandardOutput = !debugMode };
+            var processStartInfo = new ProcessStartInfo { FileName = args[0], Arguments =  arguments , UseShellExecute = debugMode, CreateNoWindow = debugMode, RedirectStandardOutput = !debugMode };
             var process = new Process(){StartInfo = processStartInfo};
             process.Start();
             if (!debugMode){
