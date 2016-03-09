@@ -35,13 +35,13 @@ namespace XpandTestExecutor.Module.Services {
             }
         }
 
-        private static void IngoreWebApplication(EasyTest easyTest){
-            var testApplication = easyTest.Options.Applications.Cast<TestApplication>().FirstOrDefault(application => application.Name.EndsWith(".Web"));
-            if (testApplication != null){
-                testApplication.Ignored = true;
-                easyTest.SerializeOptions(null);
-            }
-        }
+//        private static void IngoreWebApplication(EasyTest easyTest){
+//            var testApplication = easyTest.Options.Applications.Cast<TestApplication>().FirstOrDefault(application => application.Name.EndsWith(".Web"));
+//            if (testApplication != null){
+//                testApplication.Ignored = true;
+//                easyTest.SerializeOptions(null);
+//            }
+//        }
 
 
         private static void UpdateAlias(EasyTestExecutionInfo easyTestExecutionInfo){

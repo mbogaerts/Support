@@ -256,7 +256,6 @@ namespace XpandTestExecutor.Module.Services {
         private static EasyTest GetNextEasyTest(Guid executionInfoKey, EasyTest[] easyTests, IDataLayer dataLayer, bool rdc) {
             using (var unitOfWork = new UnitOfWork(dataLayer)) {
                 var executionInfo = unitOfWork.GetObjectByKey<ExecutionInfo>(executionInfoKey);
-//                KillTimeoutProccesses(executionInfo);
 
                 easyTests = easyTests.Select(test => unitOfWork.GetObjectByKey<EasyTest>(test.Oid)).ToArray();
                 var runningInfosCount = executionInfo.EasyTestRunningInfos.Count();
@@ -298,23 +297,6 @@ namespace XpandTestExecutor.Module.Services {
             }
             return null;
         }
-
-//        private static void KillTimeoutProccesses(ExecutionInfo executionInfo) {
-//            return;
-//            var timeOutInfos = executionInfo.EasyTestExecutionInfos.Where(IsTimeOut);
-//            foreach (var timeOutInfo in timeOutInfos) {
-//                LogErrors(timeOutInfo.EasyTest, new TimeoutException(timeOutInfo.EasyTest + " has timeout " + timeOutInfo.EasyTest.Options.DefaultTimeout + " and runs already  for " + DateTime.Now.Subtract(timeOutInfo.Start).TotalMinutes));
-//                var process = _processes[timeOutInfo.EasyTest.Oid];
-//                if (process != null && !process.HasExited)
-//                    process.Kill();
-//                Thread.Sleep(2000);
-//            }
-//        }
-
-//        private static bool IsTimeOut(EasyTestExecutionInfo info) {
-//            return info.State==EasyTestState.Running&&DateTime.Now.Subtract(info.Start).TotalMinutes > info.EasyTest.Options.DefaultTimeout;
-//        }
-
 
         private static EasyTest GetEasyTest(IEnumerable<EasyTest> easyTests, ExecutionInfo executionInfo, int i) {
             return executionInfo.GetTestsToExecute(i).FirstOrDefault(easyTests.Contains);

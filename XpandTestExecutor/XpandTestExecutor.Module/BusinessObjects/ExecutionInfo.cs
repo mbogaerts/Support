@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using DevExpress.EasyTest.Framework;
 using DevExpress.ExpressApp.Utils;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -22,7 +23,6 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         public int Duration {
-            //            get{return EasyTestExecutionInfos.Duration();}
             get { return EasyTestExecutionInfos.Duration(); }
         }
         [Association("ExecutionInfos-Users")]
@@ -94,17 +94,28 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             CreationDate = DateTime.Now;
         }
 
-        public EasyTest[] GetTestsToExecute(int retries) {
-            if (retries == 0) {
-                var neverRunEasyTests = GetNeverRunEasyTests().Select(test => new { Test = test, Duration = test.LastPassedDuration() });
+        public EasyTest[] GetTestsToExecute(int retries){
+            return GetTestsToExecuteCore(retries).Except(GetNonIISRunning()).ToArray();
+        }
+
+        private IEnumerable<EasyTest> GetNonIISRunning(){
+            var nonIISRunning = EasyTestRunningInfos.Where(info => info.EasyTest.Options.Applications.Cast<TestApplication>()
+                .Any(application => application.AdditionalAttributes.Any(attribute => attribute.LocalName == "DontUseIIS")));
+            return nonIISRunning.Select(info => info.EasyTest);
+        }
+
+        private EasyTest[] GetTestsToExecuteCore(int retries){
+            if (retries == 0){
+                var neverRunEasyTests =
+                    GetNeverRunEasyTests().Select(test => new{Test = test, Duration = test.LastPassedDuration()});
                 return neverRunEasyTests.Select(arg => arg.Test).ToArray();
             }
             return EasyTestExecutionInfos.GroupBy(executionInfo => executionInfo.EasyTest).ToArray()
-                    .Where(infos => infos.All(info => info.State == EasyTestState.Failed) && infos.Count() == retries)
-                    .Select(infos => new { Test = infos.Key, Count = infos.Count() })
-                    .OrderBy(arg => arg.Count)
-                    .Select(arg => arg.Test)
-                    .ToArray();
+                .Where(infos => infos.All(info => info.State == EasyTestState.Failed) && infos.Count() == retries)
+                .Select(infos => new{Test = infos.Key, Count = infos.Count()})
+                .OrderBy(arg => arg.Count)
+                .Select(arg => arg.Test)
+                .ToArray();
         }
 
         private IEnumerable<EasyTest> GetNeverRunEasyTests() {
