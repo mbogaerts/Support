@@ -111,6 +111,7 @@ namespace Xpand.ToolboxCreator {
                 var names = registryKey.GetSubKeyNames().Where(s => s.StartsWith("Xpand") && ((func == null) || func(s)));
                 foreach (var name in names) {
                     registryKey.DeleteSubKeyTree(name);
+                    registryKey.Close();
                 }
             }
         }
