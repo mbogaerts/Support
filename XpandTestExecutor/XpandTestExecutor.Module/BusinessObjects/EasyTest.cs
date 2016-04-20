@@ -140,7 +140,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             for (int index = 0; index < fileNames.Length; index++) {
                 var fileName = fileNames[index];
                 string name = fileName;
-                var easyTest = objectSpace.FindObject<EasyTest>(test => test.FileName == name) ?? objectSpace.CreateObject<EasyTest>();
+                var easyTest = objectSpace.QueryObject<EasyTest>(test => test.FileName == name) ?? objectSpace.CreateObject<EasyTest>();
                 easyTest.FileName = fileName;
                 easyTest.Application = easyTest.Options.Applications.Cast<TestApplication>().Select(application => application.Name.Replace(".Win", "").Replace(".Web", "")).First();
                 easyTests[index] = easyTest;

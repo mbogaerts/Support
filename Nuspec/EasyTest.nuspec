@@ -16,7 +16,7 @@
     <dependencies>
       <dependency id="AForge.Imaging" version="1.0.4.0" />
       <dependency id="AForge.Video" version="1.0.4.0" />
-      <dependency id="eXpandLib" version="15.2.9.4" />
+      <dependency id="eXpandLib" version="16.1.1.1" />
       <dependency id="Fasterflect" version="1.0.4.0" />
     </dependencies>
   </metadata>
