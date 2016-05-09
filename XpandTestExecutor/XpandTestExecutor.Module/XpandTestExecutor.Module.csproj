@@ -164,6 +164,7 @@
     <Compile Include="Controllers\TestControllerHelper.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Services\ObsoleteMessage.cs" />
     <Compile Include="Services\CurrentSequenceOperator.cs" />
     <Compile Include="Services\CustomProcess.cs">
       <SubType>Component</SubType>

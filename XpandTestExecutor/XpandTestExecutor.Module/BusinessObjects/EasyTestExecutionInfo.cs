@@ -198,7 +198,6 @@ namespace XpandTestExecutor.Module.BusinessObjects {
 
         }
 
-
         public bool ExecutedFromOtherUser() {
             return WindowsUser.Name != null;
         }

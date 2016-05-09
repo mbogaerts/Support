@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -41,11 +42,13 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             return Application + " " + Name;
         }
 
+        [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
         public double Duration {
             get { return GetCurrentSequenceInfos().Duration(); }
         }
 
         [InvisibleInAllViews]
+        [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
         public XPCollection<EasyTestExecutionInfo> FailedEasyTestExecutionInfos {
             get { return GetCurrentSequenceInfos().Failed(); }
         }
@@ -53,13 +56,17 @@ namespace XpandTestExecutor.Module.BusinessObjects {
 
         public XPCollection<EasyTestExecutionInfo> GetCurrentSequenceInfos() {
             return new XPCollection<EasyTestExecutionInfo>(Session,
-                EasyTestExecutionInfos.Where(
-                    info => info.ExecutionInfo.Sequence == CurrentSequenceOperator.CurrentSequence));
+                EasyTestExecutionInfos.Where(info => info.ExecutionInfo.Sequence == CurrentSequenceOperator.CurrentSequence));
         }
 
         [InvisibleInAllViews]
+        [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
         public bool Failed {
-            get { return FailedEasyTestExecutionInfos.Select(info => info.EasyTest).Distinct().Contains(this); }
+            get{
+                if (Session.Query<ExecutionInfo>().Max(info => info.Sequence) == CurrentSequenceOperator.CurrentSequence)
+                    return GetCurrentSequenceInfos().All(info => info.State==EasyTestState.Failed);
+                return GetCurrentSequenceInfos().All(info => info.State == EasyTestState.Failed || info.State == EasyTestState.Running);
+            }
         }
 
         [Association("EasyTestExecutionInfo-EasyTests")]

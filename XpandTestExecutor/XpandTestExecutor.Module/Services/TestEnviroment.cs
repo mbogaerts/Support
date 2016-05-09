@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -43,6 +44,10 @@ namespace XpandTestExecutor.Module.Services {
                 process.Start();
                 process.WaitForExit();
             }
+        }
+
+        public static void Terminate(){
+            throw new Exception();
         }
     }
 }
