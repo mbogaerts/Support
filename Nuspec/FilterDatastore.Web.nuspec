@@ -14,7 +14,7 @@
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com/#filterdatastore</projectUrl>
     <dependencies>
-      <dependency id="eXpandFilterDatastore" version="16.1.1.1" />
+      <dependency id="eXpandFilterDatastore" version="16.1.2.1" />
     </dependencies>
   </metadata>
   <files>
