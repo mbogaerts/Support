@@ -16,9 +16,9 @@ http://apobekiaris.blogspot.com/search/label/WorldCreator</description>
     <copyright>eXpandFramework.com</copyright>
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <dependencies>
-      <dependency id="eXpandLib" version="15.2.9.3" />
-      <dependency id="eXpandSecurity" version="15.2.9.3" />
-      <dependency id="eXpandValidation" version="15.2.9.3" />
+      <dependency id="eXpandLib" version="15.2.9.4" />
+      <dependency id="eXpandSecurity" version="15.2.9.4" />
+      <dependency id="eXpandValidation" version="15.2.9.4" />
       <dependency id="Fasterflect" version="0.9.6.1" />
       <dependency id="Mono.Cecil" version="0.9.6.1" />
     </dependencies>
