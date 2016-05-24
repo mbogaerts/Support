@@ -8,6 +8,7 @@ namespace XpandTestExecutor.Win {
     public partial class XpandTestExecutorWindowsFormsApplication : WinApplication {
         public XpandTestExecutorWindowsFormsApplication() {
             InitializeComponent();
+            CheckCompatibilityType=CheckCompatibilityType.DatabaseSchema;
         }
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args) {
             args.ObjectSpaceProvider = new XPObjectSpaceProvider(args.ConnectionString, args.Connection);
