@@ -40,6 +40,7 @@ namespace FixReferences {
             UpdateReferences(document, directoryName, file);
             UpdateNugetTargets(document, file);
             UpdateConfig(file);
+            UpdateLanguageVersion(document,file);
             if (SyncConfigurations(document))
                 DocumentHelper.Save(document, file);
 
@@ -51,8 +52,19 @@ namespace FixReferences {
             var combine = Path.Combine(Path.GetDirectoryName(file)+"", @"Properties\licenses.licx");
             if  (File.Exists(combine))
                 File.Delete(combine);
+        }
 
-            UpdateVs2010Compatibility(document, file);
+        private void UpdateLanguageVersion(XDocument document, string file){
+            var propertyGroups = document.Descendants().Where(element => element.Name.LocalName=="PropertyGroup").ToArray();
+            var targetFrameworkVersionElement = document.Descendants().Single(element => element.Name.LocalName== "TargetFrameworkVersion");
+            targetFrameworkVersionElement.Value = "v4.5.2";
+            foreach (var propertyGroup in propertyGroups){
+                var langVersionElement = propertyGroup.Descendants().FirstOrDefault(element => element.Name.LocalName== "LangVersion")?? new XElement(XNamespace + "LangVersion");
+                if (string.IsNullOrEmpty(langVersionElement.Value))
+                    propertyGroup.Add(langVersionElement);
+                langVersionElement.Value = "6";
+            }
+            DocumentHelper.Save(document,file );
         }
 
         private void UpdateProjectReferences(XDocument document, string file){
@@ -103,48 +115,13 @@ namespace FixReferences {
 
         private XElement GetOutputPath(XDocument document, string configuration){
             return document.Descendants().Where(element => element.Name.LocalName=="OutputPath").First(element =>{
-                if (element.Parent != null){
-                    var attribute = element.Parent.Attribute("Condition");
-                    if (attribute != null){
-                        var value = attribute.Value+"";
-                        return new[]{"Configuration",configuration}.All(value.Contains);
-                    }
+                var attribute = element.Parent?.Attribute("Condition");
+                if (attribute != null){
+                    var value = attribute.Value+"";
+                    return new[]{"Configuration",configuration}.All(value.Contains);
                 }
                 return false;
             });
-        }
-
-        void UpdateVs2010Compatibility(XDocument document, string file) {
-            var elements = document.Descendants().Where(element 
-                => element.Name.LocalName == "VSToolsPath" || element.Name.LocalName == "VisualStudioVersion" );
-            var xElements = elements as XElement[] ?? elements.ToArray();
-            bool save=xElements.Any();
-            xElements.Remove();
-
-
-            elements=document.Descendants().Where(element 
-                => element.Name.LocalName == "Import" &&
-                (element.Attribute("Project").Value.StartsWith("$(MSBuildExtensionsPath)")||
-                element.Attribute("Project").Value.StartsWith("$(MSBuildExtensionsPath32)")));
-            var enumerable = elements as XElement[] ?? elements.ToArray();
-            if (!save)
-                save = enumerable.Any();
-
-            if (IsWeb(document, GetOutputType(document))&& !document.Descendants().Any(element =>
-                element.Name.LocalName == "Import" && element.Attribute("Project").Value.StartsWith("$(VSToolsPath)")&&
-                element.Attribute("Condition").Value.StartsWith("'$(VSToolsPath)' != ''"))) {
-                var element = new XElement(XNamespace+"Import");
-                element.SetAttributeValue("Project",@"$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets");
-                element.SetAttributeValue("Condition", @"'$(VSToolsPath)' != ''");
-                Debug.Assert(document.Root != null, "document.Root != null");
-                document.Root.Add(element);
-                save = true;
-            }
-            
-            enumerable.Remove();
-
-            if (save)
-                DocumentHelper.Save(document, file);
         }
 
         void UpdateConfig(string file) {
