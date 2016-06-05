@@ -11,7 +11,7 @@ namespace VideoBuilder {
         private const string ImgExtentsion = ".png";
         static void Main(string[] args){
             var paths = args[0].Split(';');
-            foreach (var path in paths.Where(s => !string.IsNullOrEmpty(s))){
+            foreach (var path in paths.Where(s => !string.IsNullOrEmpty(s)&&Directory.Exists(s))){
                 
                 var files = Directory.GetFiles(path, "*.png");
                 var images = GetImages(files.ToArray()).GroupBy(s => Regex.Replace(s, @"([^\d]*)([\d]*)([^\d]*)", "$1$3", RegexOptions.Singleline | RegexOptions.IgnoreCase));

@@ -45,17 +45,11 @@ namespace XpandTestExecutor.Module.Controllers {
             _testControllerHelper = Application.MainWindow.GetController<TestControllerHelper>();
         }
 
-        public SingleChoiceAction SelectionModeAction {
-            get { return _testControllerHelper.SelectionModeAction; }
-        }
+        public SingleChoiceAction SelectionModeAction => _testControllerHelper.SelectionModeAction;
 
-        public SingleChoiceAction UserModeAction {
-            get { return _testControllerHelper.UserModeAction; }
-        }
+        public SingleChoiceAction UserModeAction => _testControllerHelper.UserModeAction;
 
-        public bool IsDebug {
-            get { return _testControllerHelper.ExecutionModeAction.SelectedItem.Caption == "Debug"; }
-        }
+        public bool IsDebug => _testControllerHelper.ExecutionModeAction.SelectedItem.Caption == "Debug";
 
         private void UnlinkTestActionOnExecute(object sender, SimpleActionExecuteEventArgs e) {
             var easyTests = e.SelectedObjects.Cast<EasyTest>().ToArray();

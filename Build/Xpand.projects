@@ -39,9 +39,6 @@
                     Xpand\Xpand.ExpressApp.Modules\Email\Xpand.ExpressApp.Email.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment\Xpand.ExpressApp.FileAttachment.csproj;
                     Xpand\Xpand.ExpressApp.Modules\FileAttachment.Web\Xpand.ExpressApp.FileAttachment.Web.csproj;
-                    Xpand\Xpand.ExpressApp.Modules\FilterDataStore\Xpand.ExpressApp.FilterDataStore.csproj;
-                    Xpand\Xpand.ExpressApp.Modules\FilterDataStore.Web\Xpand.ExpressApp.FilterDataStore.Web.csproj;
-                    Xpand\Xpand.ExpressApp.Modules\FilterDataStore.Win\Xpand.ExpressApp.FilterDataStore.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\HtmlPropertyEditor.Web\Xpand.ExpressApp.HtmlPropertyEditor.Web.csproj;
                     Xpand\Xpand.ExpressApp.Modules\ImportWizard\Xpand.ExpressApp.ImportWizard.csproj;
                     Xpand\Xpand.ExpressApp.Modules\ImportWizard.Win\Xpand.ExpressApp.ImportWizard.Win.csproj;
@@ -69,7 +66,6 @@
                     Xpand\Xpand.ExpressApp.Modules\Scheduler.Win\Xpand.ExpressApp.Scheduler.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Scheduler.Web\Xpand.ExpressApp.Scheduler.Web.csproj;
                     Xpand\Xpand.ExpressApp.Modules\StateMachine\Xpand.ExpressApp.StateMachine.csproj;
-                    Xpand\Xpand.ExpressApp.Modules\Thumbnail.Web\Xpand.ExpressApp.Thumbnail.Web.csproj;
                     Xpand\Xpand.ExpressApp.Modules\ViewVariants\Xpand.ExpressApp.ViewVariants.csproj;
                     Xpand\Xpand.ExpressApp.Modules\WizardUI.Win\Xpand.ExpressApp.WizardUI.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Workflow\Xpand.ExpressApp.Workflow.csproj;
@@ -111,8 +107,6 @@
                    Demos\Modules\Email\EmailTester.Web\EmailTester.Web.csproj;
                    Demos\Modules\FileAttachment\FileAttachmentTester.Win\FileAttachmentTester.Win.csproj;
                    Demos\Modules\FileAttachment\FileAttachmentTester.Web\FileAttachmentTester.Web.csproj;
-                   Demos\Modules\FilterDataStore\FilterDataStoreTester.Win\FilterDataStoreTester.Win.csproj;
-                   Demos\Modules\FilterDataStore\FilterDataStoreTester.Web\FilterDataStoreTester.Web.csproj;
                    Demos\Modules\HtmlPropertyEditor\HtmlPropertyEditorTester.Web\HtmlPropertyEditorTester.Web.csproj;
                    Demos\Modules\ImportWizard\ImportWizardTester.Win\ImportWizardTester.Win.csproj;
                    Demos\Modules\IO\IOTester.Win\IOTester.Win.csproj;
@@ -137,7 +131,6 @@
                    Demos\Modules\StateMachine\StateMachineTester.Web\StateMachineTester.Web.csproj;
                    Demos\Modules\SystemTester\SystemTester.Win\SystemTester.Win.csproj;
                    Demos\Modules\SystemTester\SystemTester.Web\SystemTester.Web.csproj;
-                   Demos\Modules\Thumbnail\ThumbnailTester.Web\ThumbnailTester.Web.csproj;
                    Demos\Modules\TreeListEditors\TreeListEditorsTester.Win\TreeListEditorsTester.Win.csproj;
                    Demos\Modules\TreeListEditors\TreeListEditorsTester.Web\TreeListEditorsTester.Web.csproj;
                    Demos\Modules\Validation\ValidationTester.Win\ValidationTester.Win.csproj;

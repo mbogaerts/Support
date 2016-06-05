@@ -169,7 +169,7 @@ namespace XpandTestExecutor.Module.Services {
         }
 
         public static CancellationTokenSource Execute(EasyTest[] easyTests, bool rdc, bool debugMode, Action<Task> continueWith ) {
-            Tracing.Tracer.LogValue("EasyTests.Count", easyTests.Count());
+            Tracing.Tracer.LogValue("EasyTests.Count", easyTests.Length);
             if (easyTests.Any()) {
                 InitProcessDictionary(easyTests);
                 TestEnviroment.Setup(easyTests);
