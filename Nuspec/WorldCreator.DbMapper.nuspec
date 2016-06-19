@@ -16,6 +16,7 @@
     <dependencies>
       <dependency id="eXpandLib" version="16.1.2.1" />
       <dependency id="eXpandWorldCreator" version="16.1.2.1" />
+      <dependency id="Fasterflect" version="2.1.3" />
     </dependencies>
   </metadata>
   <files>

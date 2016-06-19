@@ -22,5 +22,6 @@
   <files>
     <file src="\Build\Temp\Xpand.ExpressApp.ImportWizard.Win.dll" target="lib\net40\Xpand.ExpressApp.ImportWizard.Win.dll" />
     <file src="\Build\Temp\Xpand.ExpressApp.ImportWizard.Win.pdb" target="lib\net40\Xpand.ExpressApp.ImportWizard.Win.pdb" />
+    <file src="\Build\Temp\WindowsBase.dll" target="lib\net40\WindowsBase.dll" />
   </files>
 </package>
