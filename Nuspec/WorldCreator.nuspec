@@ -22,9 +22,6 @@ http://apobekiaris.blogspot.com/search/label/WorldCreator</description>
       <dependency id="eXpandValidation" version="16.1.2.1" />
       <dependency id="Fasterflect" version="0.9.6.1" />
       <dependency id="Mono.Cecil" version="0.9.6.1" />
-      <dependency id="Mono.Cecil.Mdb" version="0.9.6.1" />
-      <dependency id="Mono.Cecil.Pdb" version="0.9.6.1" />
-      <dependency id="Mono.Cecil.Rocks" version="0.9.6.1" />
     </dependencies>
   </metadata>
   <files>
