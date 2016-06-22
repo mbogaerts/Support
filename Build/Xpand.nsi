@@ -114,7 +114,7 @@ Section -post SEC0001
     #WriteRegStr HKLM "SOFTWARE\Microsoft\.NETFramework\v3.0\AssemblyFoldersEx\Xpand" "" "$INSTDIR\Xpand.DLL"
     
     #call DllsToGAC
-		ExecWait '"$INSTDIR\Xpand.Dll\GACInstaller.exe" /Xpand' $0
+		ExecWait '"$INSTDIR\Xpand.Dll\GACInstaller.exe"' $0
 		ExecWait "$INSTDIR\Xpand.Dll\Xpand.ToolboxCreator.exe" $0
 SectionEnd
 
