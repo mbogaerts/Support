@@ -73,9 +73,6 @@
           <LayoutGroup Id="EasyTestExecutionInfos_Group" RelativeSize="90.379403794037941" Removed="True">
             <LayoutItem Id="EasyTestExecutionInfos" ViewItem="EasyTestExecutionInfos" Removed="True" />
           </LayoutGroup>
-          <LayoutGroup Id="SimpleEditors" RelativeSize="5.1490514905149052" Direction="Horizontal" Removed="True">
-            <LayoutGroup Id="EasyTest" Removed="True" />
-          </LayoutGroup>
         </LayoutGroup>
       </Layout>
     </DetailView>
@@ -96,10 +93,10 @@
       <Columns>
         <ColumnInfo Id="Name" Index="0" />
         <ColumnInfo Id="Application" SortOrder="Ascending" GroupIndex="0" Index="1" />
-        <ColumnInfo Id="Duration" Index="2" />
       </Columns>
       <Filters>
-        <Filter Id="All" IsNewNode="True" />
+        <Filter Id="All" Index="0" IsNewNode="True" />
+        <Filter Id="Executed" Criteria="[EasyTestExecutionInfos][[State] &lt;&gt; ##Enum#XpandTestExecutor.Module.BusinessObjects.EasyTestState,NotStarted#].Count() &gt; 1" Index="1" IsNewNode="True" />
         <Filter Id="Failed" Criteria="[Failed] = True" IsNewNode="True" />
       </Filters>
     </ListView>
@@ -141,15 +138,18 @@
                 <LayoutGroup Id="Item8" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="1" RelativeSize="100" Caption="Web" IsNewNode="True">
                   <LayoutItem Id="WebLog" ShowCaption="False" ViewItem="WebLog" CaptionLocation="Top" SizeConstraintsType="Default" Index="0" RelativeSize="100" IsNewNode="True" />
                 </LayoutGroup>
+                <LayoutGroup Id="Item2" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="2" Caption="ExecutorLog" RelativeSize="100" IsNewNode="True">
+                  <LayoutItem Id="ExecutorLog" ViewItem="ExecutorLog" Index="0" RelativeSize="100" ShowCaption="False" IsNewNode="True" />
+                </LayoutGroup>
               </TabbedGroup>
             </LayoutGroup>
             <LayoutGroup Id="WinOther" ShowCaption="True" CaptionLocation="Top" Direction="Vertical" Index="3" RelativeSize="100" Caption="Other" IsNewNode="True">
-              <LayoutGroup Id="Auto4e0f28bb-c982-46ae-b721-5b6314c9b7f4" ShowCaption="False" Caption="Auto4e0f28bb-c982-46ae-b721-5b6314c9b7f4(19)" Direction="Horizontal" Index="0" RelativeSize="5.3370786516853936" IsNewNode="True">
-                <LayoutItem Id="WinPort" ViewItem="WinPort" SizeConstraintsType="Default" Index="0" RelativeSize="49.901768172888019" IsNewNode="True" />
-                <LayoutItem Id="WebPort" ViewItem="WebPort" SizeConstraintsType="Default" Index="1" RelativeSize="50.098231827111981" IsNewNode="True" />
+              <LayoutGroup Id="Auto4e0f28bb-c982-46ae-b721-5b6314c9b7f4" ShowCaption="False" Caption="Auto4e0f28bb-c982-46ae-b721-5b6314c9b7f4(19)" Direction="Horizontal" Index="0" RelativeSize="5.352112676056338" IsNewNode="True">
+                <LayoutItem Id="WinPort" ViewItem="WinPort" SizeConstraintsType="Default" Index="0" RelativeSize="49.8371335504886" IsNewNode="True" />
+                <LayoutItem Id="WebPort" ViewItem="WebPort" SizeConstraintsType="Default" Index="1" RelativeSize="50.1628664495114" IsNewNode="True" />
               </LayoutGroup>
-              <LayoutItem Id="EasyTestApplications" ViewItem="EasyTestApplications" SizeConstraintsType="Custom" Index="1" RelativeSize="11.797752808988765" CaptionLocation="Top" MinSize="20, 84" MaxSize="0, 84" IsNewNode="True" />
-              <LayoutItem Id="ConcurrentInfos" ViewItem="ConcurrentInfos" CaptionLocation="Top" SizeConstraintsType="Default" Index="2" RelativeSize="82.865168539325836" IsNewNode="True" />
+              <LayoutItem Id="EasyTestApplications" ViewItem="EasyTestApplications" SizeConstraintsType="Custom" Index="1" RelativeSize="11.830985915492958" CaptionLocation="Top" MinSize="20, 84" MaxSize="0, 84" IsNewNode="True" />
+              <LayoutItem Id="ConcurrentInfos" ViewItem="ConcurrentInfos" CaptionLocation="Top" SizeConstraintsType="Default" Index="2" RelativeSize="82.8169014084507" IsNewNode="True" />
             </LayoutGroup>
           </TabbedGroup>
           <LayoutGroup Id="SimpleEditors" RelativeSize="86.58536585365853" Direction="Horizontal" Removed="True">
