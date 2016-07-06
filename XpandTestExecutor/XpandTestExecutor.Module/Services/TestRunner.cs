@@ -103,8 +103,6 @@ namespace XpandTestExecutor.Module.Services {
                 easyTest.LastEasyTestExecutionInfo.Update(EasyTestState.Failed);
                 easyTest.LastEasyTestExecutionInfo.Setup(true);
                 easyTest.Session.ValidateAndCommitChanges();
-                if (easyTest.LastEasyTestExecutionInfo.ExecutionInfo.FailedAgain())
-                    TestEnviroment.Terminate();
                 Tracing.Tracer.LogError(e);
             }
             
@@ -132,8 +130,6 @@ namespace XpandTestExecutor.Module.Services {
                         Tracing.Tracer.LogValue("Execution", "Reset");
                     }
                     easyTest.Session.ValidateAndCommitChanges();
-                    if (easyTest.LastEasyTestExecutionInfo.ExecutionInfo.FailedAgain())
-                        TestEnviroment.Terminate();
                     Tracing.Tracer.LogValue("Out AfterProcessExecute", easyTest.Name+"/"+easyTest.Application);
                 }
             }
