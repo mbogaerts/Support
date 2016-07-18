@@ -62,6 +62,7 @@
                     Xpand\Xpand.ExpressApp.Modules\Quartz.Server\Xpand.Quartz.Server.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Reports\Xpand.ExpressApp.Reports.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Reports.Win\Xpand.ExpressApp.Reports.Win.csproj;
+					Xpand\Xpand.ExpressApp.Modules\ReportsV2.Win\Xpand.ExpressApp.ReportsV2.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Scheduler\Xpand.ExpressApp.Scheduler.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Scheduler.Win\Xpand.ExpressApp.Scheduler.Win.csproj;
                     Xpand\Xpand.ExpressApp.Modules\Scheduler.Web\Xpand.ExpressApp.Scheduler.Web.csproj;
