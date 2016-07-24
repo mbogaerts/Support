@@ -56,8 +56,6 @@ namespace FixReferences {
 
         private void UpdateLanguageVersion(XDocument document, string file){
             var propertyGroups = document.Descendants().Where(element => element.Name.LocalName=="PropertyGroup").ToArray();
-            var targetFrameworkVersionElement = document.Descendants().Single(element => element.Name.LocalName== "TargetFrameworkVersion");
-            targetFrameworkVersionElement.Value = "v4.5.2";
             foreach (var propertyGroup in propertyGroups){
                 var langVersionElement = propertyGroup.Descendants().FirstOrDefault(element => element.Name.LocalName== "LangVersion")?? new XElement(XNamespace + "LangVersion");
                 if (string.IsNullOrEmpty(langVersionElement.Value))

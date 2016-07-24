@@ -15,6 +15,7 @@
     <projectUrl>http://www.expandframework.com/#masterdetail</projectUrl>
     <dependencies>
       <dependency id="eXpandLib" version="16.1.4.3" />
+      <dependency id="eXpandLogic" version="16.1.4.3" />
       <dependency id="eXpandMasterDetail" version="16.1.4.3" />
       <dependency id="eXpandSystemWin" version="16.1.4.3" />
     </dependencies>

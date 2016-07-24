@@ -19,6 +19,7 @@
       <dependency id="eXpandLib" version="16.1.4.3" />
       <dependency id="Quartz" version="3.7.3" />
       <dependency id="RazorEngine" version="3.7.3" />
+      <dependency id="System.Web.Razor" version="3.7.3" />
     </dependencies>
   </metadata>
   <files>
