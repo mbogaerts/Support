@@ -14,11 +14,10 @@
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com/#pivotchart</projectUrl>
     <dependencies>
-      <dependency id="eXpandLib" version="16.1.4.3" />
-      <dependency id="eXpandLogic" version="16.1.4.3" />
-      <dependency id="eXpandModelArtifactState" version="16.1.4.3" />
-      <dependency id="eXpandSecurity" version="16.1.4.3" />
-      <dependency id="eXpandValidation" version="16.1.4.3" />
+      <dependency id="eXpandLib" version="16.1.4.4" />
+      <dependency id="eXpandLogic" version="16.1.4.4" />
+      <dependency id="eXpandModelArtifactState" version="16.1.4.4" />
+      <dependency id="eXpandValidation" version="16.1.4.4" />
     </dependencies>
   </metadata>
   <files>

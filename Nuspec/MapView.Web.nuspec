@@ -14,10 +14,10 @@
     <copyright>eXpandFramework.com</copyright>
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <dependencies>
-      <dependency id="eXpandLib" version="16.1.4.3" />
-      <dependency id="eXpandMapView" version="16.1.4.3" />
-      <dependency id="eXpandSystem" version="16.1.4.3" />
-      <dependency id="eXpandSystemWeb" version="16.1.4.3" />
+      <dependency id="eXpandLib" version="16.1.4.4" />
+      <dependency id="eXpandMapView" version="16.1.4.4" />
+      <dependency id="eXpandSystem" version="16.1.4.4" />
+      <dependency id="eXpandSystemWeb" version="16.1.4.4" />
     </dependencies>
   </metadata>
   <files>

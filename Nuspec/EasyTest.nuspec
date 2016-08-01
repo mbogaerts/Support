@@ -14,11 +14,9 @@
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com</projectUrl>
     <dependencies>
-      <dependency id="AForge" version="1.0.4.0" />
       <dependency id="AForge.Imaging" version="1.0.4.0" />
-      <dependency id="AForge.Math" version="1.0.4.0" />
       <dependency id="AForge.Video" version="1.0.4.0" />
-      <dependency id="eXpandLib" version="16.1.4.3" />
+      <dependency id="eXpandLib" version="16.1.4.4" />
       <dependency id="Fasterflect" version="1.0.4.0" />
     </dependencies>
   </metadata>
