@@ -16,10 +16,10 @@ http://apobekiaris.blogspot.com/search/label/WorldCreator</description>
     <copyright>eXpandFramework.com</copyright>
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <dependencies>
-      <dependency id="eXpandLib" version="16.1.4.4" />
-      <dependency id="eXpandSecurityWin" version="16.1.4.4" />
-      <dependency id="eXpandSystemWin" version="16.1.4.4" />
-      <dependency id="eXpandWorldCreator" version="16.1.4.4" />
+      <dependency id="eXpandLib" version="16.1.4.5" />
+      <dependency id="eXpandSecurityWin" version="16.1.4.5" />
+      <dependency id="eXpandSystemWin" version="16.1.4.5" />
+      <dependency id="eXpandWorldCreator" version="16.1.4.5" />
     </dependencies>
   </metadata>
   <files>
