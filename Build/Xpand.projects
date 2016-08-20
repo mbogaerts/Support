@@ -102,8 +102,6 @@
                    Demos\Modules\AuditTrail\AuditTrailTester.Win\AuditTrailTester.Win.csproj;
                    Demos\Modules\AuditTrail\AuditTrailTester.Web\AuditTrailTester.Web.csproj;
                    Demos\Modules\Chart\ChartTester.Win\ChartTester.Win.csproj;
-                   Demos\Modules\Dashboard\DashboardTester.Win\DashboardTester.Win.csproj;
-                   Demos\Modules\Dashboard\DashboardTester.Web\DashboardTester.Web.csproj;
                    Demos\Modules\Email\EmailTester.Win\EmailTester.Win.csproj;
                    Demos\Modules\Email\EmailTester.Web\EmailTester.Web.csproj;
                    Demos\Modules\FileAttachment\FileAttachmentTester.Win\FileAttachmentTester.Win.csproj;
