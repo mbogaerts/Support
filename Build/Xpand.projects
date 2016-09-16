@@ -93,7 +93,7 @@
 					Xpand\Xpand.NH\NHibernateService\Xpand.ExpressApp.NH.Service.csproj;
 					Xpand\Xpand.NH\Xpand.NH.sln"/>
     <DemoSolutions Include="
-					Demos\FeatureCenter\FeatureCenterVS2010.sln;
+					Demos\FeatureCenter\FeatureCenter.sln;
 					Demos\Middle Tier\E4035-Remoting\E4035.sln;
 					Demos\Middle Tier\E4036-WCF\E4036.sln;
 					Demos\SecurityDemo\SecurityDemo.sln;
