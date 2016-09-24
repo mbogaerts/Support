@@ -14,8 +14,8 @@
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com</projectUrl>
     <dependencies>
-      <dependency id="eXpandEasyTest" version="16.1.6.1" />
-      <dependency id="eXpandLib" version="16.1.6.1" />
+      <dependency id="eXpandEasyTest" version="16.1.6.2" />
+      <dependency id="eXpandLib" version="16.1.6.2" />
       <dependency id="Fasterflect" version="8.5.9600.16384" />
     </dependencies>
   </metadata>
