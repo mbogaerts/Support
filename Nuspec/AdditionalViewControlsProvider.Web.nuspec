@@ -14,9 +14,9 @@
     <projectUrl>http://www.expandframework.com/#AVC</projectUrl>
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <dependencies>
-      <dependency id="eXpandAdditionalViewControlsProvider" version="16.1.7.1" />
-      <dependency id="eXpandLib" version="16.1.7.1" />
-      <dependency id="eXpandLogic" version="16.1.7.1" />
+      <dependency id="eXpandAdditionalViewControlsProvider" version="16.1.7.2" />
+      <dependency id="eXpandLib" version="16.1.7.2" />
+      <dependency id="eXpandLogic" version="16.1.7.2" />
     </dependencies>
   </metadata>
   <files>
