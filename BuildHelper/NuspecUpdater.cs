@@ -117,7 +117,7 @@ namespace BuildHelper {
             var dependenciesElement = new XElement(XNamespace + "dependencies");
             var packages = dependencies.Select(pair 
                 => new { Name = GetAssemblyName(pair.Key), Version = pair.Value }).Select(arg 
-                    => new { Id = GetXpandPackageId(arg.Name), arg.Version }).OrderBy(arg => arg.Id).GroupBy(arg => arg.Id).Select(grouping => grouping.First());
+                    => new { Id = GetXpandPackageId(arg.Name), arg.Version }).OrderBy(arg => arg.Id).GroupBy(arg => arg.Id).Select(grouping => grouping.First()).ToArray();
             foreach (var package in packages) {
                 var dependencyElement = new XElement(XNamespace + "dependency");
                 dependencyElement.SetAttributeValue("id",package.Id);
@@ -161,7 +161,7 @@ namespace BuildHelper {
                     if(!assemblyName.StartsWith("xpand")) {
                         var packageId = GetPackageId(element)??assemblyName;
                         var packagesConfig = (File.Exists(path) ? File.ReadAllText(path) : "").ToLowerInvariant();
-                        var regex = new Regex("<package id=\"" + packageId + "\" .*version=\"([^\"]*)",RegexOptions.Singleline|RegexOptions.Multiline);
+                        var regex = new Regex("<package id=\"" + packageId + "\" .*version=\"([^\"]*).*/>",RegexOptions.IgnoreCase);
                         var match = regex.Match(packagesConfig);
                         if (match.Success){
                             version = match.Groups[1].Value;
