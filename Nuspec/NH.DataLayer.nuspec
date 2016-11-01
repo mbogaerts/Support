@@ -14,9 +14,10 @@
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com/#AVC</projectUrl>
     <dependencies>
-      <dependency id="eXpandNHibernateCore" version="16.1.7.3" />
-      <dependency id="FluentNHibernate" version="1.2.4" />
-      <dependency id="NHibernate" version="1.2.4" />
+      <dependency id="eXpandNHibernateCore" version="16.1.7.4" />
+      <dependency id="FluentNHibernate" version="1.4.0.0" />
+      <dependency id="Iesi.Collections" version="3.2.0.4000" />
+      <dependency id="NHibernate" version="3.3.3.4001" />
       <dependency id="Serialize.Linq" version="1.2.4" />
     </dependencies>
   </metadata>

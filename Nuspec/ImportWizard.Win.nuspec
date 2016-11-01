@@ -15,12 +15,13 @@
     <projectUrl>http://www.expandframework.com/#ImportWizard</projectUrl>
     <dependencies>
       <dependency id="DocumentFormat.OpenXml" version="2.5" />
-      <dependency id="eXpandImportWizard" version="16.1.7.3" />
-      <dependency id="eXpandLib" version="16.1.7.3" />
+      <dependency id="eXpandImportWizard" version="16.1.7.4" />
+      <dependency id="eXpandLib" version="16.1.7.4" />
     </dependencies>
   </metadata>
   <files>
     <file src="\Build\Temp\Xpand.ExpressApp.ImportWizard.Win.dll" target="lib\net40\Xpand.ExpressApp.ImportWizard.Win.dll" />
     <file src="\Build\Temp\Xpand.ExpressApp.ImportWizard.Win.pdb" target="lib\net40\Xpand.ExpressApp.ImportWizard.Win.pdb" />
+    <file src="\Build\Temp\WindowsBase.dll" target="lib\net40\WindowsBase.dll" />
   </files>
 </package>
