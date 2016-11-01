@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace FixReferences {
+namespace BuildHelper {
     class ProjectUpdater : Updater {
         private readonly string _version;
         public static readonly XNamespace XNamespace = XNamespace.Get("http://schemas.microsoft.com/developer/msbuild/2003");

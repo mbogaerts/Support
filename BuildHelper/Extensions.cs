@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FixReferences {
+namespace BuildHelper {
     class Extensions {
         public static string PathToRoot(string project,string rootDir) {
             string path = null;

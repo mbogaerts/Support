@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using CommandLine;
 
-namespace FixReferences {
+namespace BuildHelper {
     class Program {
         static readonly HashSet<string> _excludedDirs = new HashSet<string> { "DXBuildGenerator", "Xpand.DesignExperience", "Report designer script editor" };
         private static Options _options;
@@ -20,9 +20,7 @@ namespace FixReferences {
             }
         }
 
-        public static Options Options{
-            get { return _options; }
-        }
+        public static Options Options => _options;
 
         public static bool Execute(string rootDir){
             DeleteBackupFolders(rootDir);
@@ -40,7 +38,7 @@ namespace FixReferences {
 
             var nuspecs = Directory.GetFiles(Path.Combine(rootDir, @"Support\Nuspec"), "*.nuspec");
             foreach (var file in nuspecs) {
-                var projectReferencesUpdater = new NugetUpdater(documentHelper, rootDir, version, projectFiles,nuspecs);
+                var projectReferencesUpdater = new NuspecUpdater(documentHelper, rootDir, version, projectFiles,nuspecs);
                 projectReferencesUpdater.Update(file);
             }
             return true;

@@ -6,8 +6,8 @@
     <ProjectGuid>{47EC81AF-D917-4E33-A8FC-48AA2B8DD4A9}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FixReferences</RootNamespace>
-    <AssemblyName>FixReferences</AssemblyName>
+    <RootNamespace>BuildHelper</RootNamespace>
+    <AssemblyName>BuildHelper</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>6</LangVersion>
@@ -57,7 +57,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="DocumentLoader.cs" />
-    <Compile Include="NugetUpdater.cs" />
+    <Compile Include="NuspecUpdater.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

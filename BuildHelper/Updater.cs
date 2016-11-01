@@ -1,4 +1,4 @@
-﻿namespace FixReferences {
+﻿namespace BuildHelper {
     abstract class Updater {
         readonly IDocumentHelper _documentHelper;
         readonly string _rootDir;

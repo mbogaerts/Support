@@ -7,14 +7,14 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using MoreLinq;
 
-namespace FixReferences {
-    class NugetUpdater:Updater {
+namespace BuildHelper {
+    class NuspecUpdater:Updater {
         readonly string _version;
         private readonly string[] _projects;
         private readonly string[] _nuspecs;
         internal static readonly XNamespace XNamespace = XNamespace.Get("http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd");
 
-        public NugetUpdater(IDocumentHelper documentHelper, string rootDir, string version, string[] projects, string[] nuspecs)
+        public NuspecUpdater(IDocumentHelper documentHelper, string rootDir, string version, string[] projects, string[] nuspecs)
             : base(documentHelper, rootDir){
             _version = version;
             _projects = projects;
@@ -83,11 +83,11 @@ namespace FixReferences {
         }
 
         private void CreateReferenceFiles(IEnumerable<KeyValuePair<string, IEnumerable<XElement>>> allReferences, IEnumerable<XElement> dependencies, XElement filesElement){
-            var xElements = allReferences.SelectMany(pair => pair.Value).DistinctBy(element => element.Attribute("Include").Value);
+            var xElements = allReferences.SelectMany(pair => pair.Value).DistinctBy(element => element.Attribute("Include")?.Value);
             var elements = xElements.Except(dependencies).Except(filesElement.Elements());
             foreach (var assemblyName in elements.Select(GetAssemblyName)){
                 var newFileElement = NewFileElement(assemblyName);
-                if (filesElement.DescendantNodes().Cast<XElement>().All(element => element.Attribute("src").Value != newFileElement.Attribute("src").Value)) {
+                if (filesElement.DescendantNodes().Cast<XElement>().All(element => element.Attribute("src")?.Value != newFileElement.Attribute("src")?.Value)) {
                     filesElement.Add(newFileElement);
                 }
             }
@@ -161,7 +161,7 @@ namespace FixReferences {
                     if(!assemblyName.StartsWith("xpand")) {
                         var packageId = GetPackageId(element)??assemblyName;
                         var packagesConfig = (File.Exists(path) ? File.ReadAllText(path) : "").ToLowerInvariant();
-                        var regex = new Regex("<package id=\"" + packageId + "\" .*version=\"([^\"]*)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                        var regex = new Regex("<package id=\"" + packageId + "\" .*version=\"([^\"]*)",RegexOptions.Singleline|RegexOptions.Multiline);
                         var match = regex.Match(packagesConfig);
                         if (match.Success){
                             version = match.Groups[1].Value;
@@ -175,7 +175,7 @@ namespace FixReferences {
                     elements.Add(new KeyValuePair<XElement, string>(element, version));
                 }
             }
-            return elements.DistinctBy(pair => pair.Key.Attribute("Include").Value);
+            return elements.DistinctBy(pair => pair.Key.Attribute("Include")?.Value);
         }
 
         private string GetPackageId(XElement element){
@@ -194,9 +194,12 @@ namespace FixReferences {
         }
 
         private string GetAssemblyName(XElement element){
-            var value = element.Attribute("Include").Value;
-            var indexOf = value.IndexOf(",", StringComparison.Ordinal);
-            return indexOf == -1 ? value : value.Substring(0, indexOf);
+            var value = element.Attribute("Include")?.Value;
+            if (value != null){
+                var indexOf = value.IndexOf(",", StringComparison.Ordinal);
+                return indexOf == -1 ? value : value.Substring(0, indexOf);
+            }
+            return null;
         }
 
         private IEnumerable<KeyValuePair<string,IEnumerable<XElement>>> GetReferences(IEnumerable<string> projects,params  string[] excluded){
@@ -206,7 +209,10 @@ namespace FixReferences {
                 var document = XDocument.Load(s);
                 var strings = new []{"DevExpress","Microsoft"}.Concat(excluded);
                 var xElements = document.Descendants(ProjectUpdater.XNamespace + "Reference")
-                    .Where(element => !strings.Any(s1 => element.Attribute("Include").Value.StartsWith(s1)));
+                    .Where(element => !strings.Any(s1 =>{
+                        var attribute = element.Attribute("Include");
+                        return attribute != null && attribute.Value.StartsWith(s1);
+                    }));
                 if (Program.Options.AfterBuild){
                     var assemblyPath = Path.Combine(RootDir, (@"Xpand.dll\" + Path.GetFileNameWithoutExtension(s) + ".dll"));
                     var assemblies = Assembly.ReflectionOnlyLoadFrom(assemblyPath).GetReferencedAssemblies().Select(name => name.Name).ToArray();

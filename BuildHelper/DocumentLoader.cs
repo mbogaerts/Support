@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 
-namespace FixReferences {
+namespace BuildHelper {
     public interface IDocumentHelper {
         XDocument GetXDocument(string file);
         void Save(XDocument document, string file);
@@ -24,10 +24,8 @@ namespace FixReferences {
 
         // Fields...
 
-        public IList<string> SavedFiles {
-            get { return _savedFiles; }
-        }
-        
+        public IList<string> SavedFiles => _savedFiles;
+
         public void Save(XDocument document, string file) {
             document.Save(file, SaveOptions.None);
             _savedFiles.Add(file);

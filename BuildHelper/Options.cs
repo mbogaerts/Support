@@ -1,7 +1,7 @@
 ﻿using CommandLine;
 using CommandLine.Text;
 
-namespace FixReferences {
+namespace BuildHelper {
     public class Options {
         [Option("afterbuild")]
         public bool AfterBuild { get; set; }
