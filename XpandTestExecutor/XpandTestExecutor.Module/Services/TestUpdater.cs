@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using DevExpress.EasyTest.Framework;
@@ -50,15 +49,15 @@ namespace XpandTestExecutor.Module.Services {
             var aliases = options.Aliases.Cast<TestAlias>();
             var database = options.TestDatabases.Cast<TestDatabase>().Select(db => Regex.Replace(db.DBName, "(.*)_" + easyTestExecutionInfo.WindowsUser.Name, "$1", RegexOptions.Singleline)).FirstOrDefault();
             if (database!=null)
-                foreach (var aliase in aliases.Where(@alias => alias.Name.ToLower().StartsWith("sqlconnection"))){
+                foreach (var aliase in aliases.Where(alias => alias.Name.ToLower().StartsWith("sqlconnection"))){
                     aliase.Value = Regex.Replace(aliase.Value, @"(.*)" + database + "(.*)",
-                        "$1" + database + "_" + easyTestExecutionInfo.WindowsUser.Name + "$2", RegexOptions.Singleline);
+                        "$1" + database + "_" + easyTestExecutionInfo.WindowsUser.Name, RegexOptions.Singleline);
                 }
             UserNameAlias(options,easyTestExecutionInfo.WindowsUser.Name);
         }
 
         private static void UserNameAlias(Options options, string userName){
-            var testAlias = options.Aliases.Cast<TestAlias>().FirstOrDefault(@alias => alias.Name.ToLower() == "username") ;
+            var testAlias = options.Aliases.Cast<TestAlias>().FirstOrDefault(alias => alias.Name.ToLower() == "username") ;
             if (testAlias!=null)
                 testAlias.Value = userName;
             else{
@@ -171,7 +170,7 @@ namespace XpandTestExecutor.Module.Services {
         }
 
         private static void UpdateAppBinAlias(EasyTestExecutionInfo easyTestExecutionInfo) {
-            foreach (var alias in easyTestExecutionInfo.EasyTest.Options.Aliases.Cast<TestAlias>().Where(@alias => alias.ContainsAppPath())) {
+            foreach (var alias in easyTestExecutionInfo.EasyTest.Options.Aliases.Cast<TestAlias>().Where(alias => alias.ContainsAppPath())) {
                 alias.Value = alias.UpdateAppPath(easyTestExecutionInfo.WindowsUser.Name);
             }
         }
