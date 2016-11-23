@@ -1,11 +1,3 @@
-[submodule "DXBuildGenerator"]
-	path = DXBuildGenerator
-	url = https://github.com/derjabkin/DXBuildGenerator.git
-	branch = master
-[submodule "Nuspec/DX-Nuspec"]
-	path = Nuspec/DX-Nuspec
-	url = https://github.com/derjabkin/DX-Nuspec.git
-	branch = master
 [submodule "xaf-report-designer-script-editor"]
 	path = report-designer-script-editor
 	url = https://github.com/KrzysztofKielce/xaf-report-designer-script-editor.git
