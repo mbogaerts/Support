@@ -14,9 +14,9 @@
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com/#masterdetail</projectUrl>
     <dependencies>
-      <dependency id="eXpandLib" version="16.2.3.1" />
-      <dependency id="eXpandMasterDetail" version="16.2.3.1" />
-      <dependency id="eXpandSystemWin" version="16.2.3.1" />
+      <dependency id="eXpandLib" version="16.2.3.2" />
+      <dependency id="eXpandMasterDetail" version="16.2.3.2" />
+      <dependency id="eXpandSystemWin" version="16.2.3.2" />
     </dependencies>
   </metadata>
   <files>
