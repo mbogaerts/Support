@@ -15,8 +15,8 @@
     <projectUrl>http://www.expandframework.com/#ImportWizard</projectUrl>
     <dependencies>
       <dependency id="DocumentFormat.OpenXml" version="2.5" />
-      <dependency id="eXpandImportWizard" version="16.2.3.3" />
-      <dependency id="eXpandLib" version="16.2.3.3" />
+      <dependency id="eXpandImportWizard" version="16.2.3.4" />
+      <dependency id="eXpandLib" version="16.2.3.4" />
     </dependencies>
   </metadata>
   <files>

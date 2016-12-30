@@ -14,7 +14,7 @@
     <tags>DevExpress, eXpand, XAF, eXpressApp</tags>
     <projectUrl>http://www.expandframework.com/#validation</projectUrl>
     <dependencies>
-      <dependency id="eXpandLib" version="16.2.3.3" />
+      <dependency id="eXpandLib" version="16.2.3.4" />
     </dependencies>
   </metadata>
   <files>
