@@ -56,7 +56,7 @@ namespace XpandTestExecutor.Module.Services {
                         lastEasyTestExecutionInfo.Update(EasyTestState.Running);
                         unitOfWork.ValidateAndCommitChanges();
 
-                        Thread.Sleep(5000);
+                        Thread.Sleep(2000);
                     }
                     catch (Exception e) {
                         LogErrors(easyTest, e);
@@ -203,7 +203,7 @@ namespace XpandTestExecutor.Module.Services {
                         fileName = easyTest.FileName;
                         Task.Factory.StartNew(() => RunTest(easyTest.Oid, dataLayer, rdc,debugMode), token).TimeoutAfter(easyTest.Options.DefaultTimeout*60*1000);
                     }
-                    Thread.Sleep(10000);
+                    Thread.Sleep(2000);
                 } while (!ExecutionFinished(dataLayer, executionInfoKey, easyTests.Length));
             }
             catch (Exception e) {
