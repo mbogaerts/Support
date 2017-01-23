@@ -21,18 +21,13 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             : base(session) {
         }
 
-        public int Duration {
-            get { return EasyTestExecutionInfos.Duration(); }
-        }
+        public int Duration => EasyTestExecutionInfos.Duration();
+
         [Association("ExecutionInfos-Users")]
-        public XPCollection<WindowsUser> WindowsUsers {
-            get { return GetCollection<WindowsUser>("WindowsUsers"); }
-        }
+        public XPCollection<WindowsUser> WindowsUsers => GetCollection<WindowsUser>("WindowsUsers");
 
         [Association("EasyTestExecutionInfo-ExecutionInfos")]
-        public XPCollection<EasyTestExecutionInfo> EasyTestExecutionInfos {
-            get { return GetCollection<EasyTestExecutionInfo>("EasyTestExecutionInfos"); }
-        }
+        public XPCollection<EasyTestExecutionInfo> EasyTestExecutionInfos => GetCollection<EasyTestExecutionInfo>("EasyTestExecutionInfos");
 
         public XPCollection<EasyTestExecutionInfo> EasyTestRunningInfos {
             get {
@@ -42,23 +37,16 @@ namespace XpandTestExecutor.Module.BusinessObjects {
 
         public XPCollection<EasyTest> FinishedTests {
             get{
-                var passedTests = PassedEasyTestExecutionInfos.Select(info => info.EasyTest).Distinct();
+                var passedTests = PassedEasyTests.Distinct();
                 return new XPCollection<EasyTest>(Session, FailedTests.Concat(passedTests));
             }
         }
 
-        public XPCollection<EasyTestExecutionInfo> FinishedInfos {
-            get {
-                return new XPCollection<EasyTestExecutionInfo>(Session, FailedInfos.Concat(PassedEasyTestExecutionInfos));
-            }
-        }
+//        public XPCollection<EasyTestExecutionInfo> FinishedInfos => new XPCollection<EasyTestExecutionInfo>(Session, FailedInfos.Concat(pa));
 
         public XPCollection<EasyTestExecutionInfo> FailedInfos {
             get{
-                var failedInfos = new XPCollection<EasyTestExecutionInfo>(Session, EasyTestExecutionInfos.Where(info => (info.State == EasyTestState.Failed)));
-                var isExecutingInfo = Sequence!=Session.Query<ExecutionInfo>().Max(info => info.Sequence);
-                var notPassesInfos = EasyTestExecutionInfos.Where(info => info.State == EasyTestState.Failed || info.State == EasyTestState.Running);
-                return isExecutingInfo ? new XPCollection<EasyTestExecutionInfo>(Session, notPassesInfos) : failedInfos;
+                return new XPCollection<EasyTestExecutionInfo>(Session,EasyTestExecutionInfos.Where(info => info.State == EasyTestState.Failed || info.State == EasyTestState.Running));
             }
         }
 
@@ -69,28 +57,24 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         [InvisibleInAllViews]
-        public XPCollection<EasyTestExecutionInfo> PassedEasyTestExecutionInfos {
+        public XPCollection<EasyTest> PassedEasyTests {
             get {
-                var passedEasyTests =
-                    EasyTestExecutionInfos.GroupBy(info => info.EasyTest)
-                        .Where(infos => infos.Any(info => info.State == EasyTestState.Passed))
-                        .Select(infos => infos.Key);
-                return new XPCollection<EasyTestExecutionInfo>(Session,
-                    EasyTestExecutionInfos.Where(info => passedEasyTests.Contains(info.EasyTest)));
+//                var passedEasyTests =
+//                    EasyTestExecutionInfos.GroupBy(info => info.EasyTest)
+//                        .Where(infos => infos.Any(info => info.State == EasyTestState.Passed))
+//                        .Select(infos => infos.Key);
+                return new XPCollection<EasyTest>(Session,
+                    EasyTestExecutionInfos.Where(info => info.State==EasyTestState.Passed).Select(info => info.EasyTest));
             }
         }
 
 
         [InvisibleInAllViews]
-        public bool Failed {
-            get { return PassedEasyTestExecutionInfos.Count != EasyTestExecutionInfos.Count; }
-        }
+        public bool Failed => FailedTests.Any();
 
         public long Sequence { get; set; }
 
-        string ISupportSequenceObject.Prefix {
-            get { return ""; }
-        }
+        string ISupportSequenceObject.Prefix => "";
 
         public IEnumerable<EasyTest> FailedTests{
             get{
@@ -130,7 +114,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         public IEnumerable<EasyTest> LastExecutionFailures(){
             var sequence = Session.Query<ExecutionInfo>().Where(info => info.Sequence<Sequence).Max(info => info.Sequence);
             var executionInfo = Session.Query<ExecutionInfo>().First(info => info.Sequence==sequence);
-            return executionInfo.FailedInfos.Select(info => info.EasyTest).Distinct().Where(test => EasyTestExecutionInfos.Select(info => info.EasyTest).Contains(test));
+            return executionInfo.FailedTests;
         }
 
         private IEnumerable<EasyTest> GetNonIISRunning(){
@@ -143,8 +127,9 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             if (retries == 0){
                 var lastExecutionFailures = LastExecutionFailures().ToArray();
                 if (lastExecutionFailures.Any()){
-                    if (FinishedTests.Count < lastExecutionFailures.Count()){
-                        var easyTests = lastExecutionFailures.Except(FinishedTests).Except(EasyTestRunningInfos.Select(info => info.EasyTest)).Except(PassedEasyTestExecutionInfos.Select(info => info.EasyTest));
+                    if (FinishedTests.Count < lastExecutionFailures.Length){
+                        var tests = lastExecutionFailures.Except(FinishedTests).Except(EasyTestRunningInfos.Select(info => info.EasyTest));
+                        var easyTests = tests.Except(PassedEasyTests);
                         return easyTests.ToArray();
                     }
                 }
@@ -163,7 +148,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         public bool FailedAgain() {
             var lastExecutionFailures = LastExecutionFailures().ToArray();
             if (lastExecutionFailures.Any()){
-                if (FinishedTests.Count == lastExecutionFailures.Count() &&
+                if (FinishedTests.Count == lastExecutionFailures.Length &&
                     FailedTests.Any(lastExecutionFailures.Contains)) return true;
             }
             return false;
@@ -185,7 +170,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         public WindowsUser GetNextUser(EasyTest easyTest) {
-            var lastWindowsUser = easyTest.LastEasyTestExecutionInfo != null ? easyTest.LastEasyTestExecutionInfo.WindowsUser : null;
+            var lastWindowsUser = easyTest.LastEasyTestExecutionInfo?.WindowsUser;
             var windowsUsers = GetIdleUsers().ToArray();
             return windowsUsers.Except(GetUsedUsers(easyTest).Concat(new[] { lastWindowsUser })).FirstOrDefault() ?? windowsUsers.Except(new[] { lastWindowsUser }).FirstOrDefault() ?? lastWindowsUser;
         }

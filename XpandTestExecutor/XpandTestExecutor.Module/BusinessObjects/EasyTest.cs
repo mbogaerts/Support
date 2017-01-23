@@ -43,15 +43,11 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
-        public double Duration {
-            get { return GetCurrentSequenceInfos().Duration(); }
-        }
+        public double Duration => GetCurrentSequenceInfos().Duration();
 
         [InvisibleInAllViews]
         [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
-        public XPCollection<EasyTestExecutionInfo> FailedEasyTestExecutionInfos {
-            get { return GetCurrentSequenceInfos().Failed(); }
-        }
+        public XPCollection<EasyTestExecutionInfo> FailedEasyTestExecutionInfos => GetCurrentSequenceInfos().Failed();
 
 
         public XPCollection<EasyTestExecutionInfo> GetCurrentSequenceInfos() {
@@ -61,18 +57,45 @@ namespace XpandTestExecutor.Module.BusinessObjects {
 
         [InvisibleInAllViews]
         [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
-        public bool Failed {
-            get{
-                if (Session.Query<ExecutionInfo>().Max(info => info.Sequence) == CurrentSequenceOperator.CurrentSequence)
-                    return GetCurrentSequenceInfos().All(info => info.State==EasyTestState.Failed);
+        public bool Failed{
+            get {
                 return GetCurrentSequenceInfos().All(info => info.State == EasyTestState.Failed || info.State == EasyTestState.Running);
             }
         }
 
-        [Association("EasyTestExecutionInfo-EasyTests")]
-        public XPCollection<EasyTestExecutionInfo> EasyTestExecutionInfos {
-            get { return GetCollection<EasyTestExecutionInfo>("EasyTestExecutionInfos"); }
+        [InvisibleInAllViews]
+        [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
+        public bool Executed{
+            get{
+                var easyTestExecutionInfos = GetCurrentSequenceInfos();
+                return easyTestExecutionInfos.Count>1|| easyTestExecutionInfos.All(info => info.State == EasyTestState.NotStarted);
+            }
         }
+
+        [InvisibleInAllViews]
+        [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
+        public bool Passed{
+            get{
+                var easyTestExecutionInfos = GetCurrentSequenceInfos();
+                return easyTestExecutionInfos.Any(info => info.State == EasyTestState.Passed);
+            }
+        }
+
+        [InvisibleInAllViews]
+        [Obsolete(ObsoleteMessage.DontUseFromCode,true)]
+        public bool Running{
+            get{
+                var easyTestExecutionInfos = GetCurrentSequenceInfos();
+                return easyTestExecutionInfos.Count(info => info.State == EasyTestState.Running) == 1 &&
+                       easyTestExecutionInfos.All(info => info.State != EasyTestState.Passed) &&
+                       easyTestExecutionInfos.Select(info => info.ExecutionInfo).Distinct()
+                           .Any(info => info.FailedTests.Contains(this));
+            }
+        }
+
+
+        [Association("EasyTestExecutionInfo-EasyTests")]
+        public XPCollection<EasyTestExecutionInfo> EasyTestExecutionInfos => GetCollection<EasyTestExecutionInfo>("EasyTestExecutionInfos");
 
         [Size(SizeAttribute.Unlimited)]
         [RuleUniqueValue]
@@ -87,26 +110,18 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         [VisibleInDetailView(false)]
-        public string Name {
-            get { return Path.GetFileNameWithoutExtension(FileName); }
-        }
+        public string Name => Path.GetFileNameWithoutExtension(FileName);
 
         [InvisibleInAllViews]
-        public EasyTestExecutionInfo LastEasyTestExecutionInfo {
-            get { return _lastEasyTestExecutionInfo ?? GetLastInfo(); }
-        }
+        public EasyTestExecutionInfo LastEasyTestExecutionInfo => _lastEasyTestExecutionInfo ?? GetLastInfo();
 
         [InvisibleInAllViews]
         public long Sequence { get; set; }
 
-        string ISupportSequenceObject.Prefix {
-            get { return null; }
-        }
+        string ISupportSequenceObject.Prefix => null;
 
         [Browsable(false)]
-        public Options Options{
-            get { return OptionsProvider.Instance[FileName]; }
-        }
+        public Options Options => OptionsProvider.Instance[FileName];
 
         public void CreateExecutionInfo(bool useCustomPort, ExecutionInfo executionInfo, WindowsUser windowsUser = null) {
             _lastEasyTestExecutionInfo = new EasyTestExecutionInfo(Session) {

@@ -75,6 +75,8 @@ namespace XpandTestExecutor.Module.Controllers {
                     var users = executionInfo.EasyTestRunningInfos.Select(info => info.WindowsUser.Name).Where(s => s!=null).ToArray();
                     EnviromentEx.LogOffAllUsers(users);
                     TestEnviroment.KillProcessAsUser();
+                    ObjectSpace.Delete(executionInfo);
+                    ObjectSpace.CommitChanges();
                 }
                 _runTestAction.Caption = Run;
             }

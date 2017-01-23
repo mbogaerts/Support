@@ -239,6 +239,7 @@ namespace XpandTestExecutor.Module.Services {
                 }
                 unitOfWork.ValidateAndCommitChanges();
                 CurrentSequenceOperator.CurrentSequence = executionInfo.Sequence;
+                Tracing.Tracer.LogText("CurrentSequence", CurrentSequenceOperator.CurrentSequence);
                 executionInfoKey = executionInfo.Oid;
             }
             return executionInfoKey;
@@ -282,7 +283,7 @@ namespace XpandTestExecutor.Module.Services {
             if (easyTest != null) {
                 var windowsUser = executionInfo.GetNextUser(easyTest);
                 if (windowsUser != null) {
-                    if (executionInfo.FinishedInfos.Contains(easyTest.LastEasyTestExecutionInfo))
+                    if (executionInfo.FinishedTests.Contains(easyTest.LastEasyTestExecutionInfo.EasyTest))
                         easyTest.CreateExecutionInfo(useCustomPort, executionInfo, windowsUser);
                     easyTest.LastEasyTestExecutionInfo.WindowsUser = windowsUser;
                     

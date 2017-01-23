@@ -16,7 +16,7 @@
   <BOModel>
     <Class Name="XpandTestExecutor.Module.BusinessObjects.EasyTest">
       <AppearanceRules>
-        <AppearanceRule Id="Failed Color" Context="ListView" Criteria="[Failed] = True And [EasyTestExecutionInfos][[ExecutionInfo.Sequence] = CurrentSequence()]" TargetItems="*" FontColor="Red" IsNewNode="True" />
+        <AppearanceRule Id="Failed Color" Context="ListView" Criteria="[Failed] = True" TargetItems="*" FontColor="Red" IsNewNode="True" />
       </AppearanceRules>
     </Class>
     <Class Name="XpandTestExecutor.Module.BusinessObjects.EasyTestExecutionInfo">
@@ -96,7 +96,9 @@
       </Columns>
       <Filters>
         <Filter Id="All" Index="0" IsNewNode="True" />
-        <Filter Id="Executed" Criteria="[EasyTestExecutionInfos][[State] &lt;&gt; ##Enum#XpandTestExecutor.Module.BusinessObjects.EasyTestState,NotStarted#].Count() &gt; 1" Index="1" IsNewNode="True" />
+        <Filter Id="Executed" Criteria="[Executed] = True" Index="1" IsNewNode="True" />
+        <Filter Id="Running" Criteria="[Running] = True" Index="1" IsNewNode="True" />
+        <Filter Id="Passed" Criteria="[Passed] = True" Index="1" IsNewNode="True" />
         <Filter Id="Failed" Criteria="[Failed] = True" IsNewNode="True" />
       </Filters>
     </ListView>
