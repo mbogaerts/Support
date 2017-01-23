@@ -77,9 +77,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         }
 
         [Association("EasyTestExecutionInfo-EasyTestApplications")]
-        public XPCollection<EasyTestApplication> EasyTestApplications {
-            get { return GetCollection<EasyTestApplication>("EasyTestApplications"); }
-        }
+        public XPCollection<EasyTestApplication> EasyTestApplications => GetCollection<EasyTestApplication>("EasyTestApplications");
 
         public XPCollection<EasyTestExecutionInfo> ConcurrentInfos {
             get {
@@ -99,9 +97,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         [Association("EasyTestExecutionInfo-ExecutionInfos")]
         public ExecutionInfo ExecutionInfo { get; set; }
 
-        public int Duration {
-            get { return (int)End.Subtract(Start).TotalMinutes; }
-        }
+        public int Duration => (int)End.Subtract(Start).TotalMinutes;
 
         [DisplayFormat("{0:HH:mm}")]
         public DateTime End {
@@ -130,9 +126,7 @@ namespace XpandTestExecutor.Module.BusinessObjects {
         [InvisibleInAllViews]
         public long Sequence { get; set; }
 
-        string ISupportSequenceObject.Prefix {
-            get { return ((ISupportSequenceObject)EasyTest).Sequence.ToString(CultureInfo.InvariantCulture); }
-        }
+        string ISupportSequenceObject.Prefix => ((ISupportSequenceObject)EasyTest).Sequence.ToString(CultureInfo.InvariantCulture);
 
         public void SetView(bool win, Image view) {
             if (win)
@@ -175,24 +169,27 @@ namespace XpandTestExecutor.Module.BusinessObjects {
             var path = Path.GetDirectoryName(EasyTest.FileName) + "";
             if (State == EasyTestState.Failed) {
                 var logTests = EasyTest.GetLogTests().Where(test => test.Result!="Passed").ToArray();
-                if (logTests.All(test => test.ApplicationName==null))
-                    TestsLog = File.ReadAllText(Path.Combine(path, "TestsLog.xml"));
-                else {
-                    foreach (var platform in new[] { "Win", "Web" }) {
-                        var logTest = logTests.FirstOrDefault(test => test.ApplicationName.Contains("." + platform));
-                        if (logTest != null) {
-                            var fileName = Directory.GetFiles(path, EasyTest.Name + "_*." + platform + "_View.jpeg").FirstOrDefault();
-                            if (fileName != null)
-                                SetView(platform == "Win", Image.FromFile(fileName));
-                            fileName = Directory.GetFiles(path, "eXpressAppFramework_" + platform + ".log").FirstOrDefault();
-                            if (fileName != null)
-                                SetLog(platform == "Win", File.ReadAllText(fileName));
+                var testsLog = Path.Combine(path, "TestsLog.xml");
+                if (File.Exists(testsLog)){
+                    if (logTests.All(test => test.ApplicationName==null))
+                        TestsLog = File.ReadAllText(testsLog);
+                    else {
+                        foreach (var platform in new[] { "Win", "Web" }) {
+                            var logTest = logTests.FirstOrDefault(test => test.ApplicationName.Contains("." + platform));
+                            if (logTest != null) {
+                                var fileName = Directory.GetFiles(path, EasyTest.Name + "_*." + platform + "_View.jpeg").FirstOrDefault();
+                                if (fileName != null)
+                                    SetView(platform == "Win", Image.FromFile(fileName));
+                                fileName = Directory.GetFiles(path, "eXpressAppFramework_" + platform + ".log").FirstOrDefault();
+                                if (fileName != null)
+                                    SetLog(platform == "Win", File.ReadAllText(fileName));
+                            }
                         }
+                        TestsLog = File.ReadAllText(testsLog);
+                        var testExecutorLog = Path.Combine(path, "TestExecutor.log");
+                        if (File.Exists(testExecutorLog))
+                            ExecutorLog = File.ReadAllText(testExecutorLog);
                     }
-                    TestsLog = File.ReadAllText(Path.Combine(path, "TestsLog.xml"));
-                    var testExecutorLog = Path.Combine(path, "TestExecutor.log");
-                    if (File.Exists(testExecutorLog))
-                        ExecutorLog = File.ReadAllText(testExecutorLog);
                 }
             }
 
